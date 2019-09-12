@@ -6,6 +6,26 @@
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
+#define ASSERT(x) if(!(x)) __debugbreak();
+#define GLCall(x) GLClearErrors();\
+	x;\
+	ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+static void GLClearErrors() 
+{
+	while (glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char * function, const char * file, int line) 
+{
+	while (GLenum error = glGetError()) 
+	{
+		std::cout << "[OpenGL Error] #" << error << " in " << function << "\nLine: " << line << "\n" << file << "\n";
+		return false;
+	}
+	return true;
+}
+
 struct ShaderProgram {
 	std::string VertexShader;
 	std::string FragmentShader;
@@ -150,7 +170,9 @@ int main(void)
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		
+		
+		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
