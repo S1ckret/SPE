@@ -122,6 +122,8 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -164,15 +166,29 @@ int main(void)
 
 	unsigned int shader = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
 	glUseProgram(shader);
+	
+	int location = glGetUniformLocation(shader, "u_Color");
+	ASSERT(location != -1);
+	glUniform4d(location, 0.0, 0.0, 0.5, 1.0);
 
+	float r = 0.f;
+	float inc = 0.01f;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		
+		glUniform4f(location, r, 0.0, 0.5, 1.0);
 		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+		if (r > 1.0) {
+			inc = -0.01f;
+		}
+		else if (r < 0.0) {
+			inc = 0.01f;
+		}
+
+		r += inc;
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
