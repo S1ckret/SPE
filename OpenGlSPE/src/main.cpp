@@ -14,6 +14,9 @@
 #include"vendor\imgui\imgui_impl_opengl3.h"
 #include "vendor\imgui\imgui_impl_glfw.h"
 
+#include "glm\glm.hpp"
+#include "glm\gtc\matrix_transform.hpp"
+
 int main(void)
 {
 	GLFWwindow* window;
@@ -48,9 +51,9 @@ int main(void)
 
 	{
 		GLfloat positions[] = {
-			-0.5f, -0.5f,
-			0.5f, -0.5f,
-			0.5f, 0.5f,
+			-0.0f, -0.0f,
+			2.5f, 1.0f,
+			0.5f, 1.5f,
 			-0.5f, 0.5f
 		};
 
@@ -90,12 +93,21 @@ int main(void)
 		bool show_another_window = false;
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+	//	glm::mat4 projection = glm::ortho(-2.0, 2.0, -1.5, 1.5, -1.0, 1.0);
+
+		float l = -1.0f;
+		float ri = 1.0f;
+		float b = -1.0f;
+		float t = 1.0f;
+
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))
 		{
 			/* Render here */
 			renderer.Clear();
+			glm::mat4 projection = glm::ortho(l, ri, b, t, -1.0f, 1.0f);
 			shader.setUniform4f("u_Color", r, 0.0, 0.5, 1.0);
+			shader.setUniformMat4f("u_MVP", projection);
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
@@ -103,21 +115,23 @@ int main(void)
 				static float f = 0.0f;
 				static int counter = 0;
 
-				ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+				//ImGui::Begin("Matrix4");                          // Create a window called "Hello, world!" and append into it.
 
-				ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-				ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-				ImGui::Checkbox("Another Window", &show_another_window);
+				//ImGui::SliderFloat("float0", &projection[0][0], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				//ImGui::SliderFloat("float1", &projection[0][1], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				//ImGui::SliderFloat("float2", &projection[1][0], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				//ImGui::SliderFloat("float3", &projection[1][1], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
-				ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+				//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+				//ImGui::End();
 
-				if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-					counter++;
-				ImGui::SameLine();
-				ImGui::Text("counter = %d", counter);
+				ImGui::Begin("CreateMatrix4");                          // Create a window called "Hello, world!" and append into it.
 
-				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+				ImGui::SliderFloat("left", &l, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				ImGui::SliderFloat("right", &ri, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				ImGui::SliderFloat("bottom", &b, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				ImGui::SliderFloat("top", &t, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+
 				ImGui::End();
 			}
 
