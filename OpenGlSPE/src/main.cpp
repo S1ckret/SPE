@@ -6,25 +6,9 @@
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
-#define ASSERT(x) if(!(x)) __debugbreak();
-#define GLCall(x) GLClearErrors();\
-	x;\
-	ASSERT(GLLogCall(#x, __FILE__, __LINE__))
-
-static void GLClearErrors() 
-{
-	while (glGetError() != GL_NO_ERROR);
-}
-
-static bool GLLogCall(const char * function, const char * file, int line) 
-{
-	while (GLenum error = glGetError()) 
-	{
-		std::cout << "[OpenGL Error] #" << error << " in " << function << "\nLine: " << line << "\n" << file << "\n";
-		return false;
-	}
-	return true;
-}
+#include "Renderer.h"
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
 
 struct ShaderProgram {
 	std::string VertexShader;
@@ -137,86 +121,81 @@ int main(void)
 	fprintf(stdout, "Status: Using OpenGL %s\n", glGetString(GL_VERSION));
 	fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
-	GLfloat positions[] = {
-		-0.5f, -0.5f,
-		0.5f, -0.5f,
-		0.5f, 0.5f,
-		-0.5f, 0.5f
-	};
-
-	unsigned int indecies[]{
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
-
-	unsigned int ibo;
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indecies, GL_STATIC_DRAW);
-
-	ShaderProgram shaderProgram = ParseShader("res/shaders/Basic.shader");
-	std::cout << "Vertex" << "\n";
-	std::cout << shaderProgram.VertexShader << "\n";
-	std::cout << "Fragment" << "\n";
-	std::cout << shaderProgram.FragmentShader << "\n";
-
-	unsigned int shader = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
-	glUseProgram(shader);
-	
-	int location = glGetUniformLocation(shader, "u_Color");
-	ASSERT(location != -1);
-	glUniform4d(location, 0.0, 0.0, 0.5, 1.0);
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glUseProgram(0);
-
-
-	float r = 0.f;
-	float inc = 0.01f;
-	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
 	{
-		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		GLfloat positions[] = {
+			-0.5f, -0.5f,
+			0.5f, -0.5f,
+			0.5f, 0.5f,
+			-0.5f, 0.5f
+		};
 
-		glUseProgram(shader);
-		GLCall(glUniform4f(location, r, 0.0, 0.5, 1.0));
+		unsigned int indecies[]{
+			0, 1, 2,
+			2, 3, 0
+		};
 
+		unsigned int VAO;
+		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-		if (r > 1.0) {
-			inc = -0.01f;
+		VertexBuffer vb(positions, 8 * sizeof(float));
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+	
+		IndexBuffer ib(indecies, 6);
+	
+		ShaderProgram shaderProgram = ParseShader("res/shaders/Basic.shader");
+		std::cout << "Vertex" << "\n";
+		std::cout << shaderProgram.VertexShader << "\n";
+		std::cout << "Fragment" << "\n";
+		std::cout << shaderProgram.FragmentShader << "\n";
+
+		unsigned int shader = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
+		glUseProgram(shader);
+	
+		int location = glGetUniformLocation(shader, "u_Color");
+		ASSERT(location != -1);
+		glUniform4d(location, 0.0, 0.0, 0.5, 1.0);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glUseProgram(0);
+
+
+		float r = 0.f;
+		float inc = 0.01f;
+		/* Loop until the user closes the window */
+		while (!glfwWindowShouldClose(window))
+		{
+			/* Render here */
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			glUseProgram(shader);
+			GLCall(glUniform4f(location, r, 0.0, 0.5, 1.0));
+
+			glBindVertexArray(VAO);
+			ib.Bind();
+			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+			if (r > 1.0) {
+				inc = -0.01f;
+			}
+			else if (r < 0.0) {
+				inc = 0.01f;
+			}
+
+			r += inc;
+
+			/* Swap front and back buffers */
+			glfwSwapBuffers(window);
+
+			/* Poll for and process events */
+			glfwPollEvents();
 		}
-		else if (r < 0.0) {
-			inc = 0.01f;
-		}
 
-		r += inc;
-
-		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
-
-		/* Poll for and process events */
-		glfwPollEvents();
+		glDeleteProgram(shader);
 	}
-
-	glDeleteProgram(shader);
 	glfwTerminate();
 	return 0;
 }
