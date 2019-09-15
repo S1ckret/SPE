@@ -3,15 +3,15 @@
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
-#include "Renderer.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "VertexArray.h"
-#include "VertexBufferLayout.h"
-#include "Shader.h"
+#include "Graphics\Renderer.h"
+#include "Graphics\IndexBuffer.h"
+#include "Graphics\VertexBuffer.h"
+#include "Graphics\VertexArray.h"
+#include "Graphics\VertexBufferLayout.h"
+#include "Graphics\Shader.h"
 
 #include "vendor\imgui\imgui.h"
-#include"vendor\imgui\imgui_impl_opengl3.h"
+#include "vendor\imgui\imgui_impl_opengl3.h"
 #include "vendor\imgui\imgui_impl_glfw.h"
 
 #include "glm\glm.hpp"
@@ -51,12 +51,12 @@ int main(void)
 
 	{
 		GLfloat positions[] = {
-			-0.0f, -0.0f,
-			2.5f, 1.0f,
-			0.5f, 1.5f,
-			-0.5f, 0.5f
+			-5.f, -5.f,
+			 5.f, -5.f,
+			 5.f,  5.f,
+			-5.f,  5.f
 		};
-
+		
 		unsigned int indecies[]{
 			0, 1, 2,
 			2, 3, 0
@@ -93,49 +93,21 @@ int main(void)
 		bool show_another_window = false;
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-	//	glm::mat4 projection = glm::ortho(-2.0, 2.0, -1.5, 1.5, -1.0, 1.0);
-
-		float l = -1.0f;
-		float ri = 1.0f;
-		float b = -1.0f;
-		float t = 1.0f;
+		glm::mat4 projection = glm::ortho(-20.f, 20.f, -20.f, 20.f, -1.0f, 1.0f);
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))
 		{
 			/* Render here */
 			renderer.Clear();
-			glm::mat4 projection = glm::ortho(l, ri, b, t, -1.0f, 1.0f);
-			shader.setUniform4f("u_Color", r, 0.0, 0.5, 1.0);
-			shader.setUniformMat4f("u_MVP", projection);
+
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
-			{
-				static float f = 0.0f;
-				static int counter = 0;
-
-				//ImGui::Begin("Matrix4");                          // Create a window called "Hello, world!" and append into it.
-
-				//ImGui::SliderFloat("float0", &projection[0][0], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				//ImGui::SliderFloat("float1", &projection[0][1], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				//ImGui::SliderFloat("float2", &projection[1][0], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				//ImGui::SliderFloat("float3", &projection[1][1], -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-				//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-				//ImGui::End();
-
-				ImGui::Begin("CreateMatrix4");                          // Create a window called "Hello, world!" and append into it.
-
-				ImGui::SliderFloat("left", &l, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				ImGui::SliderFloat("right", &ri, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				ImGui::SliderFloat("bottom", &b, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				ImGui::SliderFloat("top", &t, -2.0f, 2.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-				ImGui::End();
-			}
 
 			renderer.Draw(va, ib, shader);
+			shader.setUniform4f("u_Color", r, 0.0f, 0.5f, 1.0);
+			shader.setUniformMat4f("u_MVP", projection);
 			if (r > 1.0) {
 				inc = -0.01f;
 			}
