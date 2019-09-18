@@ -4,6 +4,13 @@
 #include <string>
 #include <sstream>
 #include "Renderer.h"
+Shader::Shader() :
+	m_FilePath(""),
+	m_RendererID(0)
+
+{
+}
+
 Shader::Shader(const std::string & filepath) :
 	m_FilePath(filepath),
 	m_RendererID(0)
@@ -15,6 +22,13 @@ Shader::Shader(const std::string & filepath) :
 Shader::~Shader()
 {
 	GLCall(glDeleteProgram(m_RendererID));
+}
+
+void Shader::SetFilePath(const std::string & filepath)
+{	
+	m_FilePath = filepath;
+	ShaderProgram shaderProgram = ParseShader(filepath);
+	m_RendererID = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
 }
 
 void Shader::Bind() const

@@ -26,6 +26,20 @@ public:
 	VertexBufferLayout() :
 		m_Stride(0) {}
 
+	void Clear() 
+	{
+		while (!m_Elements.empty())
+		{
+			Pop();
+		}
+	}
+
+	void Pop() 
+	{
+		m_Stride -= m_Elements.back().count * VertexBufferElement::GetSizeOfType(m_Elements.back().type);
+		m_Elements.pop_back();
+	}
+
 	template<typename T>
 	void Push(unsigned int count) 
 	{

@@ -9,6 +9,7 @@
 #include "Graphics\VertexArray.h"
 #include "Graphics\VertexBufferLayout.h"
 #include "Graphics\Shader.h"
+#include "Graphics\Shape.h"
 
 #include "vendor\imgui\imgui.h"
 #include "vendor\imgui\imgui_impl_opengl3.h"
@@ -33,5 +34,7 @@ protected:
 	void Draw();
 	void ImGuiDraw();
 private:
+	Renderer renderer;
+	Shape* shape;
 	GLFWwindow* window;
 };

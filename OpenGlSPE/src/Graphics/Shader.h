@@ -13,9 +13,11 @@ struct ShaderProgram {
 class Shader
 {
 public:
+	Shader();
 	Shader(const std::string& filepath);
 	~Shader();
 
+	void SetFilePath(const std::string& filepath);
 	void Bind() const;
 	void Unbind() const;
 
