@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include <iostream>
 
+glm::mat4 PROJ = glm::ortho(-20.f, 20.f, -20.f, 20.f, -1.0f, 1.0f);
+
 void GLClearErrors() 
 {
 	while (glGetError() != GL_NO_ERROR);
@@ -25,17 +27,26 @@ void Renderer::Clear() const
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 }
 
-void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) const
+void Renderer::SetView(const View * view)
+{
+	m_view = view;
+}
+
+void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & shader) const
 {
 	va.Bind();
 	ib.Bind();
+	shader.setUniformMat4f("View", m_view->GetView());
+	shader.setUniformMat4f("Projection", PROJ);
 	shader.Bind();
 	GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
 }
 
-void Renderer::Draw(const VertexArray & va, const Material & ma, unsigned int vertex_count)
+void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_count)
 {
 	va.Bind();
 	ma.shader.Bind();
+	ma.shader.setUniformMat4f("View", m_view->GetView());
+	ma.shader.setUniformMat4f("Projection", PROJ);
 	GLCall(glDrawArrays(ma.draw_type, 0, vertex_count));
 }

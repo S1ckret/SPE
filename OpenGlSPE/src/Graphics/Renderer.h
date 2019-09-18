@@ -5,7 +5,7 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
-
+#include "View.h"
 #include "Physics\Material.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak();
@@ -23,8 +23,12 @@ public:
 	Renderer();
 	// To Do: Material instead of shader
 	void Clear() const;
-	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
-	void Draw(const VertexArray& va, const Material& ma, unsigned int vertex_count);
-private:
 
+	void SetView(const View* view);
+
+	void Draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader) const;
+	void Draw(const VertexArray& va, Material& ma, unsigned int vertex_count);
+private:
+	const View* m_view;
 };
+

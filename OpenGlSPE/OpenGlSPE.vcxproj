@@ -139,6 +139,7 @@
     <ClCompile Include="src\FrameTimer.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Shape.cpp" />
+    <ClCompile Include="src\Graphics\View.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
@@ -297,6 +298,7 @@
     <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Shape.h" />
+    <ClInclude Include="src\Graphics\View.h" />
     <ClInclude Include="src\Physics\Material.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />

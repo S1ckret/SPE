@@ -10,6 +10,7 @@
 #include "Graphics\VertexBufferLayout.h"
 #include "Graphics\Shader.h"
 #include "Graphics\Shape.h"
+#include "Graphics\View.h"
 
 #include "vendor\imgui\imgui.h"
 #include "vendor\imgui\imgui_impl_opengl3.h"
@@ -17,7 +18,6 @@
 
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-
 
 class Application
 {
@@ -35,6 +35,10 @@ protected:
 	void ImGuiDraw();
 private:
 	Renderer renderer;
+	View view;
 	Shape* shape;
 	GLFWwindow* window;
+
+	float zoom = 1.f;
+	float left, right, bottom, top;
 };
