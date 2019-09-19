@@ -12,6 +12,8 @@
 #include "Graphics\Shape.h"
 #include "Graphics\View.h"
 
+#include "FrameTimer.h"
+
 #include "vendor\imgui\imgui.h"
 #include "vendor\imgui\imgui_impl_opengl3.h"
 #include "vendor\imgui\imgui_impl_glfw.h"
@@ -38,6 +40,11 @@ private:
 	View view;
 	Shape* shape;
 	GLFWwindow* window;
+
+	FrameTimer ft;
+	const double m_update_rate = 25.0;
+	const double m_update_time = 1.0 / m_update_rate;
+	const unsigned int m_max_frame_skip = 5;
 
 	float zoom = 1.f;
 	float left, right, bottom, top;

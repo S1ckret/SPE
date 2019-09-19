@@ -27,7 +27,7 @@ Application::Application() :
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	glfwSwapInterval(1);
+//	glfwSwapInterval(1);
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -55,8 +55,43 @@ Application::~Application()
 void Application::Run()
 {
 	Init();
+	double elapsed_time = ft.GetElapsedTime();
+	double next_update_time = 0.0;
+	ft.Clear();
+	FrameTimer second_timer;
+	second_timer.Clear();
+	unsigned int updates_count = 0;
 	while (!glfwWindowShouldClose(window))
 	{
+
+		HandleInput();
+		const double delta_time = ft.Mark();
+		elapsed_time = ft.GetElapsedTime();
+		double second = second_timer.GetElapsedTime();
+		unsigned int loops = 0;
+		while (elapsed_time >= next_update_time && loops < m_max_frame_skip) 
+		{
+			next_update_time += m_update_time;
+			loops++;
+			updates_count++;
+			if (second > 1.0) 
+			{
+				second_timer.Clear();
+				second = 0.0;
+				std::cout << loops << "\n";
+				std::cout << delta_time << "\n";
+				std::cout << elapsed_time << "\n";
+				std::cout << next_update_time << "\n";
+				std::cout << updates_count << "\n";
+				updates_count = 0;
+			}
+
+
+			Update(delta_time);
+		}
+
+
+
 		view.SetView(glm::ortho(left, right, bottom, top, -1.f, 1.f));
 		renderer.Clear();
 		Draw();

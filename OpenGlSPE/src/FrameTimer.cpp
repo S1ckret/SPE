@@ -3,6 +3,7 @@
 FrameTimer::FrameTimer()
 {
 	last = std::chrono::high_resolution_clock::now();
+	last_clear = std::chrono::high_resolution_clock::now();
 }
 
 float FrameTimer::Mark()
@@ -15,6 +16,12 @@ float FrameTimer::Mark()
 
 float FrameTimer::GetElapsedTime()
 {
-	const std::chrono::duration<float> elapsedTime = last.time_since_epoch(); 
+	const auto now = std::chrono::high_resolution_clock::now();
+	const std::chrono::duration<float> elapsedTime = now - last_clear; 
 	return elapsedTime.count();
+}
+
+void FrameTimer::Clear()
+{
+	last_clear = std::chrono::high_resolution_clock::now();
 }
