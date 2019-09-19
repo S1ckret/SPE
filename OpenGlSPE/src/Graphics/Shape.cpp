@@ -1,7 +1,9 @@
 #include "Shape.h"
 #include <iostream>
 
-Shape::Shape()
+Shape::Shape() :
+	m_model_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
+	m_translation(glm::vec2(0.f, 0.f))
 {
 }
 
@@ -45,9 +47,25 @@ void Shape::SetVerticiesColors(float * colors, unsigned int count)
 	InitBuffers();
 }
 
+void Shape::Translate(float x, float y)
+{
+	m_translation += glm::vec2(x, y);
+	m_model_mat = glm::translate(m_model_mat, glm::vec3(x, y, 0.f));
+}
+
+void Shape::SetTranslation(float x, float y)
+{
+	m_model_mat = glm::translate(m_model_mat, glm::vec3(-m_translation, 0.f));
+	m_translation = glm::vec2(x, y);
+	m_model_mat = glm::translate(m_model_mat, glm::vec3(m_translation, 0.f));
+
+}
+
 void Shape::Draw(Renderer & renderer)
 {
-//	m_material.shader.setUniformMat4f(m_model_mat4);
+	m_material.shader.Bind();
+	m_material.shader.setUniformMat4f("model", m_model_mat);
+
 	renderer.Draw(m_vertex_array, m_material, m_verticies.size());
 }
 

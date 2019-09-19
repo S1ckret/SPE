@@ -36,8 +36,8 @@ void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & sha
 {
 	va.Bind();
 	ib.Bind();
-	shader.setUniformMat4f("View", m_view->GetView());
-	shader.setUniformMat4f("Projection", PROJ);
+	shader.setUniformMat4f("view", m_view->GetView());
+	shader.setUniformMat4f("projection", PROJ);
 	shader.Bind();
 	GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
 }
@@ -46,7 +46,7 @@ void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_c
 {
 	va.Bind();
 	ma.shader.Bind();
-	ma.shader.setUniformMat4f("View", m_view->GetView());
-	ma.shader.setUniformMat4f("Projection", PROJ);
+	ma.shader.setUniformMat4f("view", m_view->GetView());
+	ma.shader.setUniformMat4f("projection", PROJ);
 	GLCall(glDrawArrays(ma.draw_type, 0, vertex_count));
 }

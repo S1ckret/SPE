@@ -24,5 +24,5 @@ public:
 private:
 	
 	glm::mat4 m_view_mat4;
-	glm::vec3 m_translation;
+	glm::vec2 m_translation;
 };

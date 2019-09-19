@@ -6,7 +6,10 @@ Application::Application() :
 	left(-zoom),
 	right(zoom),
 	bottom(-zoom),
-	top(zoom)
+	top(zoom),
+	t_x(0.f),
+	t_y(0.f),
+	b_translate(0)
 {
 	if (!glfwInit())
 		terminate();
@@ -68,9 +71,9 @@ void Application::Init()
 {
 	shape = new Shape;
 	Vertex verticies[] = {
-		{-50.f, -50.f, 1.f, 0.f, 0.f},
-		{50.f, -50.f, 0.f, 1.f, 0.f},
-		{0.f, 50.f, 0.f, 0.f, 1.f},
+		{-5.f, -5.f, 1.f, 0.f, 0.f},
+		{5.f, -5.f, 0.f, 1.f, 0.f},
+		{0.f, 5.f, 0.f, 0.f, 1.f},
 	};
 	shape->SetVerticies(verticies, 3);
 	renderer.SetView(&view);
@@ -111,6 +114,19 @@ void Application::ImGuiDraw()
 		//ImGui::SliderFloat("right", &right, -10.f, 10.f);
 		//ImGui::SliderFloat("bottom", &bottom, -10.f, 10.f);
 		//ImGui::SliderFloat("top", &top, -10.f, 10.f);
+		if (ImGui::Button("Translate")) 
+		{
+			shape->Translate(1.f, 1.f);
+		}
+		ImGui::Checkbox("SetTranslation", &b_translate);
+		if (b_translate) 
+		{
+			shape->SetTranslation(t_x, t_y);
+			ImGui::SliderFloat("translate X: ", &t_x, -10.f, 10.f);
+			ImGui::SliderFloat("translate Y: ", &t_y, -10.f, 10.f);
+		}
+
+		
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}

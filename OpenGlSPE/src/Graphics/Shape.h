@@ -53,18 +53,20 @@ public:
 	void SetVerticiesPositions(float* positions, unsigned int count);
 	void SetVerticiesColors(float* colors, unsigned int count);
 
+	void Translate(float x, float y);
+	void SetTranslation(float x, float y);
+
 	void Draw(Renderer& renderer);
 private:
 	void InitBuffers();
 
 private:
 	std::vector<Vertex> m_verticies;
-	glm::fvec2 m_centeroid;
+	glm::mat4 m_model_mat;
+	glm::vec2 m_translation;
 
 	VertexBuffer m_vertex_buffer;
 	VertexArray m_vertex_array;
 	VertexBufferLayout m_vertex_layout;
-
-	MassData m_mass_data;
 	Material m_material;
 };

@@ -41,4 +41,7 @@ private:
 
 	float zoom = 1.f;
 	float left, right, bottom, top;
+
+	float t_x, t_y;
+	bool b_translate;
 };
