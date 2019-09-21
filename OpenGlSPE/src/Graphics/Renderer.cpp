@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include <iostream>
+#include "Log.h"
 
 glm::mat4 PROJ = glm::ortho(-20.f, 20.f, -20.f, 20.f, -1.0f, 1.0f);
 
@@ -12,7 +13,7 @@ bool GLLogCall(const char * function, const char * file, int line)
 {
 	while (GLenum error = glGetError()) 
 	{
-		std::cout << "[OpenGL Error] #" << error << " in " << function << "\nLine: " << line << "\n" << file << "\n";
+		LOG_ERROR("[OpenGL Error] # {0:d} in {1} Line: {2}\n", error, function, line);
 		return false;
 	}
 	return true;

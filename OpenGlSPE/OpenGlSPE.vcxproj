@@ -301,7 +301,7 @@
     <ClInclude Include="src\Graphics\Shape.h" />
     <ClInclude Include="src\Graphics\View.h" />
     <ClInclude Include="src\Log.h" />
-    <ClInclude Include="src\vendor\Material.h" />
+    <ClInclude Include="src\Physics\Material.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_vector_relational.hpp" />

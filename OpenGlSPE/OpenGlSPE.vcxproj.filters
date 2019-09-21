@@ -1260,9 +1260,6 @@
     <ClInclude Include="src\Graphics\View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vendor\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\vendor\spdlog\details\backtracer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1492,6 +1489,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

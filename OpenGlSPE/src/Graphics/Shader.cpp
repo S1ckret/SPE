@@ -60,7 +60,7 @@ unsigned int Shader::GetUniformLocation(const std::string & name)
 
 	int location = glGetUniformLocation(m_RendererID, name.c_str());
 	if (location == -1) {
-		std::cout << "Uniform [" << name << "] doesnt exist\n";
+		LOG_ERROR("Uniform \"{0}\" doesnt exist\n", name);
 	}
 	m_LocationCache[name] = location;
 	return location;

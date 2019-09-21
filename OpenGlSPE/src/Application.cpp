@@ -28,15 +28,16 @@ Application::Application() :
 	glfwMakeContextCurrent(window);
 
 //	glfwSwapInterval(1);
+	Log::Init();
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
 		/* Problem: glewInit failed, something is seriously wrong. */
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		LOG_ERROR(glewGetErrorString(err));
 	}
-	fprintf(stdout, "Status: Using OpenGL %s\n", glGetString(GL_VERSION));
-	fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
+	LOG_INFO("Using OpenGL {0}", glGetString(GL_VERSION));
+	LOG_INFO("Using GLEW {0}", glewGetString(GLEW_VERSION));
 
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -78,11 +79,7 @@ void Application::Run()
 			{
 				second_timer.Clear();
 				second = 0.0;
-				std::cout << loops << "\n";
-				std::cout << delta_time << "\n";
-				std::cout << elapsed_time << "\n";
-				std::cout << next_update_time << "\n";
-				std::cout << updates_count << "\n";
+				LOG_TRACE("Loop_N = {0}, D_T = {1}, Elapsed_T = {2}, Next_Up_T = {3}, Up_N = {4}", loops, delta_time, elapsed_time, next_update_time, updates_count);
 				updates_count = 0;
 			}
 

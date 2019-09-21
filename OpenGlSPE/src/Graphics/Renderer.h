@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "View.h"
 #include "Physics\Material.h"
+#include "Log.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak();
 #define GLCall(x) GLClearErrors();\
