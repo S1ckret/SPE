@@ -2,6 +2,9 @@
 
 double Application::cursor_pos_x = 0.0;
 double Application::cursor_pos_y = 0.0;
+double Application::old_cursor_pos_x = 0.0;
+double Application::old_cursor_pos_y = 0.0;
+bool Application::is_RMB_pressed = false;
 
 Application::Application() :
 	left(-zoom),
@@ -61,6 +64,7 @@ void Application::Run()
 	FrameTimer second_timer;
 	second_timer.Clear();
 	unsigned int updates_count = 0;
+	view.SetView(glm::ortho(left, right, bottom, top, -1.f, 1.f));
 	while (!glfwWindowShouldClose(window))
 	{
 
@@ -88,7 +92,6 @@ void Application::Run()
 
 
 
-		view.SetView(glm::ortho(left, right, bottom, top, -1.f, 1.f));
 		renderer.Clear();
 		Draw();
 		ImGuiDraw();
@@ -164,6 +167,7 @@ void Application::ButtonCallback(GLFWwindow * window, int button, int action, in
 	{
 		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
 		{
+			is_RMB_pressed = true;
 			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
 		}
 	}
@@ -173,18 +177,36 @@ void Application::ButtonCallback(GLFWwindow * window, int button, int action, in
 	{
 		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
 		{
+			is_RMB_pressed = false;
 			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
 		}
 	}
 	
-	break;
+		break;
 
+	default:
+		break;
 	}
 }
 
 void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypos)
 {
 	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
+	if (is_RMB_pressed)
+	{
+		double dx, dy;
+		dx = cursor_pos_x - old_cursor_pos_x;
+		dy = cursor_pos_y - old_cursor_pos_y;
+		glm::vec4 a{dx, dy, 0.0, 0.0};
+		a = app->view.GetView() * a;
+	//	a *= 0.99f;
+		app->view.Translate(-a.x, a.y);
+//		LOG_ERROR("Old Pos: {0}, {1}", old_cursor_pos_x, old_cursor_pos_y);
+//		LOG_INFO("New Pos: {0}, {1}", cursor_pos_x, cursor_pos_y);
+		LOG_WARN("Delta Vector ({0}, {1})", a.x, a.y);
+	}
+	old_cursor_pos_x = cursor_pos_x;
+	old_cursor_pos_y = cursor_pos_y;
 	glfwGetCursorPos(window, &cursor_pos_x, &cursor_pos_y);
 }
 

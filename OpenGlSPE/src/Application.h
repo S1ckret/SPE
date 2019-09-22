@@ -64,4 +64,6 @@ private:
 	bool b_translate;
 
 	static double cursor_pos_x, cursor_pos_y;
+	static double old_cursor_pos_x, old_cursor_pos_y;
+	static bool is_RMB_pressed;
 };
