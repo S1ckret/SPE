@@ -1,6 +1,7 @@
 #include "Application.h"
 
-
+double Application::cursor_pos_x = 0.0;
+double Application::cursor_pos_y = 0.0;
 
 Application::Application() :
 	left(-zoom),
@@ -125,6 +126,9 @@ void Application::HandleEvent()
 void Application::SetEventCallbacks()
 {
 	glfwSetKeyCallback(window, &Application::KeyCallback);
+	glfwSetScrollCallback(window, &Application::ScrollCallback);
+	glfwSetMouseButtonCallback(window, &Application::ButtonCallback);
+	glfwSetCursorPosCallback(window, &Application::CursorPosCallback);
 }
 
 void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -143,6 +147,45 @@ void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int ac
 	default:
 		break;
 	}
+}
+
+void Application::ScrollCallback(GLFWwindow * window, double xoffset, double yoffset)
+{
+	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
+
+}
+
+void Application::ButtonCallback(GLFWwindow * window, int button, int action, int mods)
+{
+	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
+	switch (action) 
+	{
+	case GLFW_PRESS:
+	{
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
+		{
+			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
+		}
+	}
+		break;
+
+	case GLFW_RELEASE:
+	{
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
+		{
+			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
+		}
+	}
+	
+	break;
+
+	}
+}
+
+void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypos)
+{
+	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
+	glfwGetCursorPos(window, &cursor_pos_x, &cursor_pos_y);
 }
 
 void Application::Draw()

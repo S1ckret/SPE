@@ -37,6 +37,9 @@ protected:
 	void HandleEvent();
 	void SetEventCallbacks();
 	static void KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
+	static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void ButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	static void CursorPosCallback(GLFWwindow* window, double xpos, double ypos);
 
 	void Draw();
 	void ImGuiDraw();
@@ -59,6 +62,6 @@ private:
 
 	float t_x, t_y;
 	bool b_translate;
-};
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static double cursor_pos_x, cursor_pos_y;
+};
