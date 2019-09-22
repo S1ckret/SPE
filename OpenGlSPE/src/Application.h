@@ -30,11 +30,19 @@ public:
 	void Run();
 protected:
 	void Init();
+
 	void HandleInput();
 	void Update(const float dt);
+
 	void HandleEvent();
+	void SetEventCallbacks();
+	static void KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
+
 	void Draw();
 	void ImGuiDraw();
+private:
+	void Terminate();
+
 private:
 	Renderer renderer;
 	View view;
@@ -52,3 +60,5 @@ private:
 	float t_x, t_y;
 	bool b_translate;
 };
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

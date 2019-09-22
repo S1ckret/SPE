@@ -26,7 +26,7 @@ Application::Application() :
 	}
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
-
+	glfwSetWindowUserPointer(window, this);
 //	glfwSwapInterval(1);
 	Log::Init();
 
@@ -47,15 +47,13 @@ Application::Application() :
 
 Application::~Application()
 {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-	glfwTerminate();
+	Terminate();
 }
 
 void Application::Run()
 {
 	Init();
+	SetEventCallbacks();
 	double elapsed_time = ft.GetElapsedTime();
 	double next_update_time = 0.0;
 	ft.Clear();
@@ -124,6 +122,29 @@ void Application::HandleEvent()
 	glfwPollEvents();
 }
 
+void Application::SetEventCallbacks()
+{
+	glfwSetKeyCallback(window, &Application::KeyCallback);
+}
+
+void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
+{
+	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
+	switch (action) 
+	{
+	case GLFW_PRESS:
+	{
+		if (key == GLFW_KEY_ESCAPE) {
+			LOG_WARN("Terminating...");
+			glfwSetWindowShouldClose(window, GL_TRUE);
+		}
+	}
+		break;
+	default:
+		break;
+	}
+}
+
 void Application::Draw()
 {
 	shape->Draw(renderer);
@@ -164,4 +185,12 @@ void Application::ImGuiDraw()
 	}
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void Application::Terminate()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+	glfwTerminate();
 }
