@@ -18,7 +18,7 @@ Application::Application() :
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(800, 800, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -48,6 +48,8 @@ Application::Application() :
 Application::~Application()
 {
 	Terminate();
+	delete shape;
+	delete circle;
 }
 
 void Application::Run()
@@ -100,6 +102,9 @@ void Application::Init()
 	};
 	shape->SetVerticies(verticies, 3);
 	renderer.SetView(&view);
+
+	circle = new Circle(5.f, 18);
+	circle->Translate(3.f, 0.f);
 }
 
 void Application::HandleInput()
@@ -198,6 +203,7 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 void Application::Draw()
 {
 	shape->Draw(renderer);
+	circle->Draw(renderer);
 }
 
 void Application::ImGuiDraw()

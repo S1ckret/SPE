@@ -11,6 +11,7 @@
 #include "Graphics\Shader.h"
 #include "Graphics\Shape.h"
 #include "Graphics\View.h"
+#include "Graphics\Circle.h"
 
 #include "FrameTimer.h"
 
@@ -50,6 +51,7 @@ private:
 	Renderer renderer;
 	View view;
 	Shape* shape;
+	Circle* circle;
 	GLFWwindow* window;
 
 	FrameTimer ft;

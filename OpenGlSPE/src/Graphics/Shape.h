@@ -47,7 +47,7 @@ class Shape
 {
 public:
 	Shape();
-	~Shape();
+	virtual ~Shape();
 
 	void SetVerticies(Vertex* verticies, unsigned int count);
 	void SetVerticiesPositions(float* positions, unsigned int count);
@@ -57,10 +57,10 @@ public:
 	void SetTranslation(float x, float y);
 
 	void Draw(Renderer& renderer);
-private:
+protected:
 	void InitBuffers();
 
-private:
+protected:
 	std::vector<Vertex> m_verticies;
 	glm::mat4 m_model_mat;
 	glm::vec2 m_translation;
