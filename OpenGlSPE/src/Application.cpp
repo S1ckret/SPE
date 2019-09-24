@@ -7,10 +7,6 @@ double Application::old_cursor_pos_y = 0.0;
 bool Application::is_RMB_pressed = false;
 
 Application::Application() :
-	left(-zoom),
-	right(zoom),
-	bottom(-zoom),
-	top(zoom),
 	t_x(0.f),
 	t_y(0.f),
 	b_translate(0)
@@ -64,10 +60,8 @@ void Application::Run()
 	FrameTimer second_timer;
 	second_timer.Clear();
 	unsigned int updates_count = 0;
-	view.SetView(glm::ortho(left, right, bottom, top, -1.f, 1.f));
 	while (!glfwWindowShouldClose(window))
 	{
-
 		HandleInput();
 		const double delta_time = ft.Mark();
 		elapsed_time = ft.GetElapsedTime();
@@ -85,13 +79,8 @@ void Application::Run()
 				LOG_TRACE("Loop_N = {0}, D_T = {1}, Elapsed_T = {2}, Next_Up_T = {3}, Up_N = {4}", loops, delta_time, elapsed_time, next_update_time, updates_count);
 				updates_count = 0;
 			}
-
-
 			Update(delta_time);
 		}
-
-
-
 		renderer.Clear();
 		Draw();
 		ImGuiDraw();
@@ -155,7 +144,8 @@ void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int ac
 void Application::ScrollCallback(GLFWwindow * window, double xoffset, double yoffset)
 {
 	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
-
+	LOG_WARN("Scroll:   x:{0}    y{1}", xoffset, yoffset);
+	app->view.Zoom(yoffset);
 }
 
 void Application::ButtonCallback(GLFWwindow * window, int button, int action, int mods)
@@ -197,13 +187,8 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 		double dx, dy;
 		dx = cursor_pos_x - old_cursor_pos_x;
 		dy = cursor_pos_y - old_cursor_pos_y;
-		glm::vec4 a{dx, dy, 0.0, 0.0};
-		a = app->view.GetView() * a;
-	//	a *= 0.99f;
-		app->view.Translate(-a.x, a.y);
-//		LOG_ERROR("Old Pos: {0}, {1}", old_cursor_pos_x, old_cursor_pos_y);
-//		LOG_INFO("New Pos: {0}, {1}", cursor_pos_x, cursor_pos_y);
-		LOG_WARN("Delta Vector ({0}, {1})", a.x, a.y);
+		app->view.Translate(-dx, dy);
+		LOG_WARN("Delta Vector ({0}, {1})", -dx, dy);
 	}
 	old_cursor_pos_x = cursor_pos_x;
 	old_cursor_pos_y = cursor_pos_y;
@@ -223,15 +208,6 @@ void Application::ImGuiDraw()
 
 	{
 		ImGui::Begin("Hello, world!");   
-		ImGui::SliderFloat("zoom", &zoom, -10.f, 10.f);
-		left = -zoom;
-		right = zoom;
-		bottom = -zoom;
-		top = zoom;
-		//ImGui::SliderFloat("left", &left, -10.f, 10.f);
-		//ImGui::SliderFloat("right", &right, -10.f, 10.f);
-		//ImGui::SliderFloat("bottom", &bottom, -10.f, 10.f);
-		//ImGui::SliderFloat("top", &top, -10.f, 10.f);
 		if (ImGui::Button("Translate")) 
 		{
 			shape->Translate(1.f, 1.f);

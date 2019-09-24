@@ -57,9 +57,6 @@ private:
 	const double m_update_time = 1.0 / m_update_rate;
 	const unsigned int m_max_frame_skip = 5;
 
-	float zoom = 1.f;
-	float left, right, bottom, top;
-
 	float t_x, t_y;
 	bool b_translate;
 
