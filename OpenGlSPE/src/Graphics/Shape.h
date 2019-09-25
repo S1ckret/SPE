@@ -58,12 +58,13 @@ public:
 
 	void Draw(Renderer& renderer);
 protected:
-	void InitBuffers();
+	virtual void InitBuffers();
 
 protected:
 	std::vector<Vertex> m_verticies;
 	glm::mat4 m_model_mat;
 	glm::vec2 m_translation;
+	unsigned int m_verticies_count;
 
 	VertexBuffer m_vertex_buffer;
 	VertexArray m_vertex_array;

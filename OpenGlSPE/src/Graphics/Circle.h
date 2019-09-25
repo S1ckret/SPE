@@ -20,5 +20,4 @@ private:
 
 private:
 	float m_radius;
-	unsigned int m_verticies_count;
 };

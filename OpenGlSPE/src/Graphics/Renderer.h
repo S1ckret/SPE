@@ -29,7 +29,9 @@ public:
 
 	void Draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader) const;
 	void Draw(const VertexArray& va, Material& ma, unsigned int vertex_count);
+	void DrawNormal(const VertexArray & va, unsigned int vertex_count, const glm::mat4& model_mat);
 private:
 	const View* m_view;
+	Shader m_normal_shader;
 };
 

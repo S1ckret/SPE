@@ -12,6 +12,7 @@
 #include "Graphics\Shape.h"
 #include "Graphics\View.h"
 #include "Graphics\Circle.h"
+#include "Graphics\Polygon.h"
 
 #include "FrameTimer.h"
 
@@ -48,10 +49,12 @@ private:
 	void Terminate();
 
 private:
-	Renderer renderer;
+	Renderer* renderer;
 	View view;
 	Shape* shape;
 	Circle* circle;
+	Poly* poly;
+
 	GLFWwindow* window;
 
 	FrameTimer ft;

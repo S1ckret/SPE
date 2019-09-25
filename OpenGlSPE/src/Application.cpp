@@ -83,8 +83,9 @@ void Application::Run()
 			}
 			Update(delta_time);
 		}
-		renderer.Clear();
+		renderer->Clear();
 		Draw();
+
 		ImGuiDraw();
 		glfwSwapBuffers(window);
 		HandleEvent();
@@ -94,6 +95,7 @@ void Application::Run()
 
 void Application::Init()
 {
+	renderer = new Renderer;
 	shape = new Shape;
 	Vertex verticies[] = {
 		{-5.f, -5.f, 1.f, 0.f, 0.f},
@@ -101,10 +103,22 @@ void Application::Init()
 		{0.f, 5.f, 0.f, 0.f, 1.f},
 	};
 	shape->SetVerticies(verticies, 3);
-	renderer.SetView(&view);
+	renderer->SetView(&view);
 
 	circle = new Circle(5.f, 18);
 	circle->Translate(3.f, 0.f);
+
+	Vertex verticies_poly[] = {
+		{-5.f, -5.f, 1.f, 0.f, 0.f},
+		{5.f, -5.f, 0.f, 1.f, 0.f},
+		{5.f, 5.f, 0.f, 0.f, 1.f},
+		{-5.f, 5.f, 0.f, 0.f, 1.f},
+	};
+	poly = new Poly;
+	poly->SetVerticies(verticies_poly, 4);
+//	poly->Translate(-3.f, -3.f);
+
+
 }
 
 void Application::HandleInput()
@@ -202,8 +216,9 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 
 void Application::Draw()
 {
-	shape->Draw(renderer);
-	circle->Draw(renderer);
+	shape->Draw(*renderer);
+	circle->Draw(*renderer);
+	poly->Draw(*renderer);
 }
 
 void Application::ImGuiDraw()

@@ -3,7 +3,8 @@
 
 Shape::Shape() :
 	m_model_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
-	m_translation(glm::vec2(0.f, 0.f))
+	m_translation(glm::vec2(0.f, 0.f)),
+	m_verticies_count(0.f)
 {
 }
 
@@ -16,8 +17,9 @@ void Shape::SetVerticies(Vertex * verticies, unsigned int count)
 {
 	if (m_verticies.size() != count) {
 		m_verticies.resize(count);
+		m_verticies_count = count;
 	}
-	for (unsigned int i = 0; i < count; i++) {
+	for (unsigned int i = 0; i < m_verticies_count; i++) {
 		m_verticies[i] = verticies[i];
 	}
 	InitBuffers();
@@ -27,8 +29,9 @@ void Shape::SetVerticiesPositions(float * positions, unsigned int count)
 {
 	if (m_verticies.size() != count) {
 		m_verticies.resize(count);
+		m_verticies_count = count;
 	}
-	for (unsigned int i = 0; i < 2 * count; i += 2) {
+	for (unsigned int i = 0; i < 2 * m_verticies_count; i += 2) {
 		m_verticies[i].x = positions[i];
 		m_verticies[i].y = positions[i + 1];
 	}
@@ -71,7 +74,7 @@ void Shape::Draw(Renderer & renderer)
 
 void Shape::InitBuffers()
 {
-	m_vertex_buffer.SetData(&m_verticies[0], m_verticies.size() * sizeof(Vertex));
+	m_vertex_buffer.SetData(&m_verticies[0], m_verticies_count * sizeof(Vertex));
 
 	m_vertex_layout.Clear();
 	m_vertex_layout.Push<float>(2);		// positions

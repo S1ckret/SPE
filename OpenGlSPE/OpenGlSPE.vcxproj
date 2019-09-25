@@ -139,6 +139,7 @@
     <ClCompile Include="src\FrameTimer.cpp" />
     <ClCompile Include="src\Graphics\Circle.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Polygon.cpp" />
     <ClCompile Include="src\Graphics\Shape.cpp" />
     <ClCompile Include="src\Graphics\View.cpp" />
     <ClCompile Include="src\Log.cpp" />
@@ -156,7 +157,7 @@
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\Normal.shader" />
     <None Include="res\shaders\BasicColor.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
@@ -298,6 +299,7 @@
     <ClInclude Include="src\FrameTimer.h" />
     <ClInclude Include="src\Graphics\Circle.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Polygon.h" />
     <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Shape.h" />

@@ -21,10 +21,12 @@ bool GLLogCall(const char * function, const char * file, int line)
 
 Renderer::Renderer()
 {
+	m_normal_shader.SetFilePath("res/shaders/Normal.shader");
 }
 
 void Renderer::Clear() const
 {
+	GLCall(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 }
 
@@ -32,6 +34,8 @@ void Renderer::SetView(const View * view)
 {
 	m_view = view;
 }
+
+
 
 void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & shader) const
 {
@@ -41,6 +45,7 @@ void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & sha
 	shader.setUniformMat4f("projection", PROJ);
 	shader.Bind();
 	GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
+	ib.Unbind();
 }
 
 void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_count)
@@ -50,4 +55,14 @@ void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_c
 	ma.shader.setUniformMat4f("view", m_view->GetView());
 	ma.shader.setUniformMat4f("projection", PROJ);
 	GLCall(glDrawArrays(ma.draw_type, 0, vertex_count));
+}
+
+void Renderer::DrawNormal(const VertexArray & va, unsigned int vertex_count, const glm::mat4 & model_mat)
+{
+	va.Bind();
+	m_normal_shader.Bind();
+	m_normal_shader.setUniformMat4f("model", model_mat);
+	m_normal_shader.setUniformMat4f("view", m_view->GetView());
+	m_normal_shader.setUniformMat4f("projection", PROJ);
+	GLCall(glDrawArrays(GL_LINES, 0, vertex_count));
 }

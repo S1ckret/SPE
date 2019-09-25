@@ -72,9 +72,11 @@
     <ClCompile Include="src\Graphics\Circle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Polygon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\Basic.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -478,6 +480,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\shaders\BasicColor.shader" />
+    <None Include="res\shaders\Normal.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vendor\imgui\imconfig.h">
@@ -1498,6 +1501,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Polygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
