@@ -116,7 +116,7 @@ void Application::Init()
 	};
 	poly = new Poly;
 	poly->SetVerticies(verticies_poly, 4);
-//	poly->Translate(-3.f, -3.f);
+	poly->Translate(-30.f, -30.f);
 
 
 }
@@ -163,8 +163,7 @@ void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int ac
 void Application::ScrollCallback(GLFWwindow * window, double xoffset, double yoffset)
 {
 	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
-	LOG_WARN("Scroll:   x:{0}    y{1}", xoffset, yoffset);
-	app->view.Zoom(yoffset);
+	app->view.Zoom(-yoffset);
 }
 
 void Application::ButtonCallback(GLFWwindow * window, int button, int action, int mods)
@@ -177,7 +176,6 @@ void Application::ButtonCallback(GLFWwindow * window, int button, int action, in
 		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
 		{
 			is_RMB_pressed = true;
-			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
 		}
 	}
 		break;
@@ -187,7 +185,6 @@ void Application::ButtonCallback(GLFWwindow * window, int button, int action, in
 		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
 		{
 			is_RMB_pressed = false;
-			LOG_WARN("Mouse_Pos:   x:{0}    y{1}", cursor_pos_x, cursor_pos_y);
 		}
 	}
 	
@@ -206,8 +203,7 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 		double dx, dy;
 		dx = cursor_pos_x - old_cursor_pos_x;
 		dy = cursor_pos_y - old_cursor_pos_y;
-		app->view.Translate(-dx, dy);
-		LOG_WARN("Delta Vector ({0}, {1})", -dx, dy);
+		app->view.Translate(dx, -dy);
 	}
 	old_cursor_pos_x = cursor_pos_x;
 	old_cursor_pos_y = cursor_pos_y;
