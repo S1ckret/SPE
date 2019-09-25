@@ -28,10 +28,10 @@ void Poly::GenNormals()
 		unsigned int next = (i + 1) % m_verticies_count;
 
 		glm::vec2 side = m_verticies[next].position - m_verticies[i].position;
-		m_normals[i] = glm::vec2(side.y, -side.x);
+		m_normals[i] = glm::normalize(glm::vec2(side.y, -side.x));
 
 		m_normals_draw[i * 2] = (m_verticies[next].position + m_verticies[i].position) * 0.5f;
-		m_normals_draw[i * 2 + 1] = m_normals[i];
+		m_normals_draw[i * 2 + 1] = m_normals[i] + m_normals_draw[i * 2];
 
 		i = next;
 	} while (i);
