@@ -3,10 +3,12 @@
 Poly::Poly()
 {
 	m_material.draw_type = GL_LINE_LOOP;
+	LOG_INFO("+++   Poly.");
 }
 
 Poly::~Poly()
 {
+	LOG_CRITICAL("~~~   Poly.");
 }
 
 void Poly::Draw(Renderer & renderer)
@@ -35,7 +37,6 @@ void Poly::GenNormals()
 
 		i = next;
 	} while (i);
-
 }
 
 void Poly::DrawNormals(Renderer& renderer)

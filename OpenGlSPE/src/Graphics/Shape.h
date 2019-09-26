@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "GL\glew.h"
 #include "glm\glm.hpp"
 
@@ -13,11 +13,11 @@
 struct Vertex
 {
 	union {
-		struct{
+		struct {
 			float x, y;
-			float r, g ,b;
+			float r, g, b;
 		};
-		struct{
+		struct {
 			glm::fvec2 position;
 			glm::fvec3 color;
 		};

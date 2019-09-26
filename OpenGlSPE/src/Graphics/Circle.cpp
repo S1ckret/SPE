@@ -2,14 +2,15 @@
 
 const double PI = acos(-1);
 
-Circle::Circle() : 
+Circle::Circle() :
 	Shape(),
 	m_radius(1.f)
 {
 	m_material.draw_type = GL_LINE_LOOP;
+	LOG_INFO("+++   Circle_1.");
 }
 
-Circle::Circle(float r, unsigned int verticies_count) : 
+Circle::Circle(float r, unsigned int verticies_count) :
 	Shape(),
 	m_radius(r)
 {
@@ -17,10 +18,12 @@ Circle::Circle(float r, unsigned int verticies_count) :
 	m_material.draw_type = GL_LINE_LOOP;
 	GenVerticiesPositions();
 	InitBuffers();
+	LOG_INFO("+++   Circle_2.");
 }
 
 Circle::~Circle()
 {
+	LOG_CRITICAL("~~~   Circle.");
 }
 
 void Circle::SetRadius(float r, unsigned int verticies_count)
@@ -47,7 +50,6 @@ void Circle::GenVerticiesPositions()
 	{
 		m_verticies[i].x = m_radius * cos(step * i);
 		m_verticies[i].y = m_radius * sin(step * i);
-		m_verticies[i].color = {1.f, 1.f, 1.f};
+		m_verticies[i].color = { 1.f, 1.f, 1.f };
 	}
-
 }

@@ -11,7 +11,6 @@ View::View() :
 	m_bot(m_zoom),
 	m_view_mat4(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.f, 1.f))
 {
-	
 }
 
 void View::SetView(const glm::mat4 & view)
@@ -45,9 +44,8 @@ void View::Zoom(float zoom)
 
 void View::SetZoom(float zoom)
 {
-	if(zoom > 0.f) {
+	if (zoom > 0.f) {
 		m_zoom = zoom;
-		LOG_WARN("m_zoom {0}", m_zoom);
 		m_view_mat4 = glm::ortho(-m_zoom, m_zoom, -m_zoom, m_zoom, -1.f, 1.f);
 		m_view_mat4 = glm::translate(m_view_mat4, glm::vec3(m_translation, 0.f));
 	}

@@ -34,4 +34,3 @@ private:
 	const View* m_view;
 	Shader m_normal_shader;
 };
-

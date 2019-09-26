@@ -27,7 +27,7 @@ Application::Application() :
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 	glfwSetWindowUserPointer(window, this);
-//	glfwSwapInterval(1);
+	//	glfwSwapInterval(1);
 	Log::Init();
 
 	GLenum err = glewInit();
@@ -48,8 +48,6 @@ Application::Application() :
 Application::~Application()
 {
 	Terminate();
-	delete shape;
-	delete circle;
 }
 
 void Application::Run()
@@ -69,12 +67,12 @@ void Application::Run()
 		elapsed_time = ft.GetElapsedTime();
 		double second = second_timer.GetElapsedTime();
 		unsigned int loops = 0;
-		while (elapsed_time >= next_update_time && loops < m_max_frame_skip) 
+		while (elapsed_time >= next_update_time && loops < m_max_frame_skip)
 		{
 			next_update_time += m_update_time;
 			loops++;
 			updates_count++;
-			if (second > 1.0) 
+			if (second > 1.0)
 			{
 				second_timer.Clear();
 				second = 0.0;
@@ -90,7 +88,6 @@ void Application::Run()
 		glfwSwapBuffers(window);
 		HandleEvent();
 	}
-
 }
 
 void Application::Init()
@@ -117,8 +114,6 @@ void Application::Init()
 	poly = new Poly;
 	poly->SetVerticies(verticies_poly, 4);
 	poly->Translate(-30.f, -30.f);
-
-
 }
 
 void Application::HandleInput()
@@ -145,7 +140,7 @@ void Application::SetEventCallbacks()
 void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
 	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
-	switch (action) 
+	switch (action)
 	{
 	case GLFW_PRESS:
 	{
@@ -154,7 +149,7 @@ void Application::KeyCallback(GLFWwindow * window, int key, int scancode, int ac
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
 	}
-		break;
+	break;
 	default:
 		break;
 	}
@@ -169,26 +164,26 @@ void Application::ScrollCallback(GLFWwindow * window, double xoffset, double yof
 void Application::ButtonCallback(GLFWwindow * window, int button, int action, int mods)
 {
 	Application* app = static_cast<Application *>(glfwGetWindowUserPointer(window));
-	switch (action) 
+	switch (action)
 	{
 	case GLFW_PRESS:
 	{
-		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
+		if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		{
 			is_RMB_pressed = true;
 		}
 	}
-		break;
+	break;
 
 	case GLFW_RELEASE:
 	{
-		if (button == GLFW_MOUSE_BUTTON_RIGHT) 
+		if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		{
 			is_RMB_pressed = false;
 		}
 	}
-	
-		break;
+
+	break;
 
 	default:
 		break;
@@ -224,20 +219,19 @@ void Application::ImGuiDraw()
 	ImGui::NewFrame();
 
 	{
-		ImGui::Begin("Hello, world!");   
-		if (ImGui::Button("Translate")) 
+		ImGui::Begin("Hello, world!");
+		if (ImGui::Button("Translate"))
 		{
 			shape->Translate(1.f, 1.f);
 		}
 		ImGui::Checkbox("SetTranslation", &b_translate);
-		if (b_translate) 
+		if (b_translate)
 		{
 			shape->SetTranslation(t_x, t_y);
 			ImGui::SliderFloat("translate X: ", &t_x, -10.f, 10.f);
 			ImGui::SliderFloat("translate Y: ", &t_y, -10.f, 10.f);
 		}
 
-		
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}
@@ -247,6 +241,10 @@ void Application::ImGuiDraw()
 
 void Application::Terminate()
 {
+	delete shape;
+	delete circle;
+	delete poly;
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();

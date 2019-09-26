@@ -6,11 +6,13 @@ Shape::Shape() :
 	m_translation(glm::vec2(0.f, 0.f)),
 	m_verticies_count(0.f)
 {
+	LOG_INFO("+++   Shape.");
 }
 
 Shape::~Shape()
 {
 	std::vector<Vertex>().swap(m_verticies);
+	LOG_CRITICAL("~~~   Shape.");
 }
 
 void Shape::SetVerticies(Vertex * verticies, unsigned int count)
@@ -61,7 +63,6 @@ void Shape::SetTranslation(float x, float y)
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(-m_translation, 0.f));
 	m_translation = glm::vec2(x, y);
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(m_translation, 0.f));
-
 }
 
 void Shape::Draw(Renderer & renderer)

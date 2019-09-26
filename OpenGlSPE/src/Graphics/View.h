@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -7,7 +7,7 @@ class View
 {
 public:
 	View();
-	
+
 	void SetView(const glm::mat4& view);
 	const glm::mat4& GetView() const;
 
@@ -22,7 +22,7 @@ public:
 	void SetRotation();
 	*/
 private:
-	
+
 	glm::vec2 m_translation;
 
 	float m_zoom;

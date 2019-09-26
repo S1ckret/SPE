@@ -21,6 +21,4 @@ private:
 	VertexBuffer m_vertex_buffer_normal;
 	VertexArray m_vertex_array_normal;
 	VertexBufferLayout m_vertex_layout_normal;
-
-
 };

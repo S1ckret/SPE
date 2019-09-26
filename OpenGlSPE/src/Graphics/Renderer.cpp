@@ -4,14 +4,14 @@
 
 glm::mat4 PROJ = glm::ortho(-20.f, 20.f, -20.f, 20.f, -1.0f, 1.0f);
 
-void GLClearErrors() 
+void GLClearErrors()
 {
 	while (glGetError() != GL_NO_ERROR);
 }
 
-bool GLLogCall(const char * function, const char * file, int line) 
+bool GLLogCall(const char * function, const char * file, int line)
 {
-	while (GLenum error = glGetError()) 
+	while (GLenum error = glGetError())
 	{
 		LOG_ERROR("[OpenGL Error] # {0:d} in {1} Line: {2}\n", error, function, line);
 		return false;
@@ -34,8 +34,6 @@ void Renderer::SetView(const View * view)
 {
 	m_view = view;
 }
-
-
 
 void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & shader) const
 {

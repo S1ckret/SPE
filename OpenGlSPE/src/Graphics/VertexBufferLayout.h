@@ -7,7 +7,7 @@ struct VertexBufferElement
 	unsigned int count;
 	unsigned char normalized;
 
-	static unsigned int GetSizeOfType(unsigned int type) 
+	static unsigned int GetSizeOfType(unsigned int type)
 	{
 		switch (type)
 		{
@@ -26,7 +26,7 @@ public:
 	VertexBufferLayout() :
 		m_Stride(0) {}
 
-	void Clear() 
+	void Clear()
 	{
 		while (!m_Elements.empty())
 		{
@@ -34,14 +34,14 @@ public:
 		}
 	}
 
-	void Pop() 
+	void Pop()
 	{
 		m_Stride -= m_Elements.back().count * VertexBufferElement::GetSizeOfType(m_Elements.back().type);
 		m_Elements.pop_back();
 	}
 
 	template<typename T>
-	void Push(unsigned int count) 
+	void Push(unsigned int count)
 	{
 		static_assert(false);
 	}
@@ -52,7 +52,7 @@ public:
 		m_Elements.push_back({ GL_FLOAT, count, GL_FALSE });
 		m_Stride += count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
 	}
-	
+
 	template <>
 	void Push<unsigned int>(unsigned int count)
 	{
@@ -73,5 +73,4 @@ public:
 private:
 	unsigned int m_Stride;
 	std::vector<VertexBufferElement> m_Elements;
-
 };

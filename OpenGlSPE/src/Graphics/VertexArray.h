@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "VertexBuffer.h"
 
 class VertexBufferLayout;
@@ -14,5 +14,4 @@ public:
 	void Unbind() const;
 private:
 	unsigned int m_RendererID;
-
 };

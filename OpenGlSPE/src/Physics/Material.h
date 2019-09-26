@@ -25,7 +25,7 @@ struct Material
 {
 	float density;
 	float restitution;
-	
+
 	unsigned int draw_type;
 	Shader shader;
 
@@ -37,7 +37,7 @@ struct Material
 		shader.SetFilePath("res/shaders/BasicColor.shader");
 	}
 
-	Material(Material_Table Type) 
+	Material(Material_Table Type)
 	{
 		shader.SetFilePath("res/shaders/BasicColor.shader");
 		switch (Type) {
@@ -59,5 +59,4 @@ struct Material
 			break;
 		}
 	}
-
 };
