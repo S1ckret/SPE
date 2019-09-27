@@ -26,6 +26,11 @@ Circle::~Circle()
 	LOG_CRITICAL("~~~   Circle.");
 }
 
+Shape * Circle::Clone()
+{
+	return new Circle(*this);
+}
+
 void Circle::SetRadius(float r, unsigned int verticies_count)
 {
 	m_radius = r;

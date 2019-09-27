@@ -48,6 +48,7 @@ class Shape
 public:
 	Shape();
 	virtual ~Shape();
+	virtual Shape* Clone() = 0;
 
 	void SetVerticies(Vertex* verticies, unsigned int count);
 	void SetVerticiesPositions(float* positions, unsigned int count);

@@ -11,6 +11,11 @@ Poly::~Poly()
 	LOG_CRITICAL("~~~   Poly.");
 }
 
+Shape * Poly::Clone()
+{
+	return new Poly(*this);
+}
+
 void Poly::Draw(Renderer & renderer)
 {
 	Shape::Draw(renderer);

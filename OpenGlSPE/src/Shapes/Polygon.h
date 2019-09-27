@@ -7,6 +7,7 @@ class Poly : public Shape
 public:
 	Poly();
 	~Poly();
+	Shape* Clone() override;
 
 	void Draw(Renderer& renderer);
 
