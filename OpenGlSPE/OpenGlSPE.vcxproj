@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\FrameTimer.cpp" />
+    <ClCompile Include="src\Physics\Body.cpp" />
     <ClCompile Include="src\Shapes\Circle.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Shapes\Polygon.cpp" />
@@ -297,6 +298,7 @@
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\FrameTimer.h" />
+    <ClInclude Include="src\Physics\Body.h" />
     <ClInclude Include="src\Shapes\Circle.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />
     <ClInclude Include="src\Shapes\Polygon.h" />

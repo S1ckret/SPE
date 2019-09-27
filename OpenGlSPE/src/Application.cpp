@@ -108,6 +108,11 @@ void Application::Init()
 	};
 	poly = new Poly;
 	poly->SetVerticies(verticies_poly, 4);
+
+	body.SetShape(poly);
+	body.ApplyForceToCenter(glm::vec2(1.f, 0.f));
+	body.ApplyTorque(0.1f);
+
 	poly->Translate(-30.f, -30.f);
 }
 
@@ -117,6 +122,7 @@ void Application::HandleInput()
 
 void Application::Update(const float dt)
 {
+	body.Update(dt);
 }
 
 void Application::HandleEvent()
@@ -204,6 +210,7 @@ void Application::Draw()
 {
 	circle->Draw(*renderer);
 	poly->Draw(*renderer);
+	body.Draw(*renderer);
 }
 
 void Application::ImGuiDraw()

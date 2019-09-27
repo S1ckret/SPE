@@ -12,14 +12,18 @@ enum Material_Table {
 
 struct MassData
 {
+	MassData() :
+		mass(1.f),
+		inv_mass(1.f),
+		I(1.f),
+		inv_I(1.f)
+	{}
 	float mass;
 	float inv_mass;
 
 	float I;
 	float inv_I;
 };
-
-#include <iostream>
 
 struct Material
 {

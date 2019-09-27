@@ -10,9 +10,12 @@
 #include "Graphics\VertexBufferLayout.h"
 #include "Graphics\Shader.h"
 #include "Graphics\View.h"
+
 #include "Shapes\Shape.h"
 #include "Shapes\Circle.h"
 #include "Shapes\Polygon.h"
+
+#include "Physics\Body.h"
 
 #include "FrameTimer.h"
 
@@ -53,6 +56,7 @@ private:
 	View view;
 	Circle* circle;
 	Poly* poly;
+	Body body;
 
 	GLFWwindow* window;
 

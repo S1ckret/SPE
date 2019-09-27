@@ -58,6 +58,12 @@ void Shape::Translate(float x, float y)
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(x, y, 0.f));
 }
 
+void Shape::Translate(glm::vec2 tr)
+{
+	m_translation += tr;
+	m_model_mat = glm::translate(m_model_mat, glm::vec3(tr, 0.f));
+}
+
 void Shape::SetTranslation(float x, float y)
 {
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(-m_translation, 0.f));
@@ -65,11 +71,15 @@ void Shape::SetTranslation(float x, float y)
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(m_translation, 0.f));
 }
 
+void Shape::SetTranslation(glm::vec2 tr)
+{
+	SetTranslation(tr.x, tr.y);
+}
+
 void Shape::Rotate(float d_rad)
 {
 	m_orientation += d_rad;
 	m_model_mat = glm::rotate(m_model_mat, d_rad, glm::vec3(0.f, 0.f, 1.f));
-
 }
 
 void Shape::SetRotation(float rad)
@@ -77,6 +87,16 @@ void Shape::SetRotation(float rad)
 	m_model_mat = glm::rotate(m_model_mat, -m_orientation, glm::vec3(0.f, 0.f, 1.f));
 	m_orientation = rad;
 	m_model_mat = glm::rotate(m_model_mat, m_orientation, glm::vec3(0.f, 0.f, 1.f));
+}
+
+const glm::vec2 Shape::GetPosition() const
+{
+	return m_translation;
+}
+
+const float Shape::GetOrientation() const
+{
+	return m_orientation;
 }
 
 void Shape::Draw(Renderer & renderer)

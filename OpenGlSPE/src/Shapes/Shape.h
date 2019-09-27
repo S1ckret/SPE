@@ -55,12 +55,17 @@ public:
 	void SetVerticiesColors(float* colors, unsigned int count);
 
 	void Translate(float x, float y);
+	void Translate(glm::vec2 tr);
 	void SetTranslation(float x, float y);
+	void SetTranslation(glm::vec2 tr);
 
 	void Rotate(float d_rad);
 	void SetRotation(float rad);
 
-	void Draw(Renderer& renderer);
+	const glm::vec2 GetPosition() const;
+	const float GetOrientation() const;
+
+	virtual void Draw(Renderer& renderer);
 protected:
 	virtual void InitBuffers();
 
