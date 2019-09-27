@@ -9,7 +9,9 @@ bool Application::is_RMB_pressed = false;
 Application::Application() :
 	t_x(0.f),
 	t_y(0.f),
-	b_translate(0)
+	t_rad(0.f),
+	b_translate(0),
+	b_rotate(0)
 {
 	if (!glfwInit())
 		terminate();
@@ -93,13 +95,6 @@ void Application::Run()
 void Application::Init()
 {
 	renderer = new Renderer;
-	shape = new Shape;
-	Vertex verticies[] = {
-		{-5.f, -5.f, 1.f, 0.f, 0.f},
-		{5.f, -5.f, 0.f, 1.f, 0.f},
-		{0.f, 5.f, 0.f, 0.f, 1.f},
-	};
-	shape->SetVerticies(verticies, 3);
 	renderer->SetView(&view);
 
 	circle = new Circle(5.f, 18);
@@ -207,7 +202,6 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 
 void Application::Draw()
 {
-	shape->Draw(*renderer);
 	circle->Draw(*renderer);
 	poly->Draw(*renderer);
 }
@@ -222,14 +216,21 @@ void Application::ImGuiDraw()
 		ImGui::Begin("Hello, world!");
 		if (ImGui::Button("Translate"))
 		{
-			shape->Translate(1.f, 1.f);
+			poly->Translate(1.f, 1.f);
 		}
 		ImGui::Checkbox("SetTranslation", &b_translate);
 		if (b_translate)
 		{
-			shape->SetTranslation(t_x, t_y);
+			poly->SetTranslation(t_x, t_y);
 			ImGui::SliderFloat("translate X: ", &t_x, -10.f, 10.f);
 			ImGui::SliderFloat("translate Y: ", &t_y, -10.f, 10.f);
+		}
+
+		ImGui::Checkbox("SetRotation", &b_rotate);
+		if (b_rotate)
+		{
+			poly->SetRotation(t_rad);
+			ImGui::SliderFloat("RAD: ", &t_rad, -10.f, 10.f);
 		}
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -241,7 +242,6 @@ void Application::ImGuiDraw()
 
 void Application::Terminate()
 {
-	delete shape;
 	delete circle;
 	delete poly;
 

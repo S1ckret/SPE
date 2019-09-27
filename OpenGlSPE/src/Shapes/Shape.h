@@ -57,6 +57,9 @@ public:
 	void Translate(float x, float y);
 	void SetTranslation(float x, float y);
 
+	void Rotate(float d_rad);
+	void SetRotation(float rad);
+
 	void Draw(Renderer& renderer);
 protected:
 	virtual void InitBuffers();
@@ -65,6 +68,7 @@ protected:
 	std::vector<Vertex> m_verticies;
 	glm::mat4 m_model_mat;
 	glm::vec2 m_translation;
+	float m_orientation;
 	unsigned int m_verticies_count;
 
 	VertexBuffer m_vertex_buffer;

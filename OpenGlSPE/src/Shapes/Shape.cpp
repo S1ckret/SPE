@@ -3,6 +3,7 @@
 Shape::Shape() :
 	m_model_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
 	m_translation(glm::vec2(0.f, 0.f)),
+	m_orientation(0.f),
 	m_verticies_count(0.f)
 {
 	LOG_INFO("+++   Shape.");
@@ -62,6 +63,20 @@ void Shape::SetTranslation(float x, float y)
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(-m_translation, 0.f));
 	m_translation = glm::vec2(x, y);
 	m_model_mat = glm::translate(m_model_mat, glm::vec3(m_translation, 0.f));
+}
+
+void Shape::Rotate(float d_rad)
+{
+	m_orientation += d_rad;
+	m_model_mat = glm::rotate(m_model_mat, d_rad, glm::vec3(0.f, 0.f, 1.f));
+
+}
+
+void Shape::SetRotation(float rad)
+{
+	m_model_mat = glm::rotate(m_model_mat, -m_orientation, glm::vec3(0.f, 0.f, 1.f));
+	m_orientation = rad;
+	m_model_mat = glm::rotate(m_model_mat, m_orientation, glm::vec3(0.f, 0.f, 1.f));
 }
 
 void Shape::Draw(Renderer & renderer)

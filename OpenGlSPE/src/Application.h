@@ -9,10 +9,10 @@
 #include "Graphics\VertexArray.h"
 #include "Graphics\VertexBufferLayout.h"
 #include "Graphics\Shader.h"
-#include "Graphics\Shape.h"
 #include "Graphics\View.h"
-#include "Graphics\Circle.h"
-#include "Graphics\Polygon.h"
+#include "Shapes\Shape.h"
+#include "Shapes\Circle.h"
+#include "Shapes\Polygon.h"
 
 #include "FrameTimer.h"
 
@@ -51,7 +51,6 @@ private:
 private:
 	Renderer* renderer;
 	View view;
-	Shape* shape;
 	Circle* circle;
 	Poly* poly;
 
@@ -62,8 +61,9 @@ private:
 	const double m_update_time = 1.0 / m_update_rate;
 	const unsigned int m_max_frame_skip = 5;
 
-	float t_x, t_y;
+	float t_x, t_y, t_rad;
 	bool b_translate;
+	bool b_rotate;
 
 	static double cursor_pos_x, cursor_pos_y;
 	static double old_cursor_pos_x, old_cursor_pos_y;
