@@ -1,5 +1,4 @@
 #include "Shape.h"
-#include <iostream>
 
 Shape::Shape() :
 	m_model_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),

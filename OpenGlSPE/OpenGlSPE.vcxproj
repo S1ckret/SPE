@@ -137,10 +137,10 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\FrameTimer.cpp" />
-    <ClCompile Include="src\Graphics\Circle.cpp" />
+    <ClCompile Include="src\Shapes\Circle.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Polygon.cpp" />
-    <ClCompile Include="src\Graphics\Shape.cpp" />
+    <ClCompile Include="src\Shapes\Polygon.cpp" />
+    <ClCompile Include="src\Shapes\Shape.cpp" />
     <ClCompile Include="src\Graphics\View.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -297,12 +297,12 @@
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\FrameTimer.h" />
-    <ClInclude Include="src\Graphics\Circle.h" />
+    <ClInclude Include="src\Shapes\Circle.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />
-    <ClInclude Include="src\Graphics\Polygon.h" />
+    <ClInclude Include="src\Shapes\Polygon.h" />
     <ClInclude Include="src\Graphics\Renderer.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
-    <ClInclude Include="src\Graphics\Shape.h" />
+    <ClInclude Include="src\Shapes\Shape.h" />
     <ClInclude Include="src\Graphics\View.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\Physics\Material.h" />
