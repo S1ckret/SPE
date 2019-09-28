@@ -46,13 +46,13 @@ void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & sha
 	ib.Unbind();
 }
 
-void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_count)
+void Renderer::Draw(const VertexArray & va, Material & ma, unsigned int vertex_count) const
 {
 	va.Bind();
 	ma.shader.Bind();
 	ma.shader.setUniformMat4f("view", m_view->GetView());
 	ma.shader.setUniformMat4f("projection", PROJ);
-	GLCall(glDrawArrays(ma.draw_type, 0, vertex_count));
+	GLCall(glDrawArrays(GL_LINE_LOOP, 0, vertex_count));
 }
 
 void Renderer::DrawNormal(const VertexArray & va, unsigned int vertex_count, const glm::mat4 & model_mat)

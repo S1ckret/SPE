@@ -2,7 +2,6 @@
 
 Poly::Poly()
 {
-	m_material.draw_type = GL_LINE_LOOP;
 	LOG_INFO("+++   Poly.");
 }
 

@@ -28,7 +28,7 @@ public:
 	void SetView(const View* view);
 
 	void Draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader) const;
-	void Draw(const VertexArray& va, Material& ma, unsigned int vertex_count);
+	void Draw(const VertexArray& va, Material& ma, unsigned int vertex_count) const;
 	void DrawNormal(const VertexArray & va, unsigned int vertex_count, const glm::mat4& model_mat);
 private:
 	const View* m_view;

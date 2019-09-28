@@ -36,12 +36,12 @@ struct Material
 	Material() :
 		density(0.f),
 		restitution(0.f),
-		draw_type(GL_TRIANGLES)
+		draw_type(GL_LINE_LOOP)
 	{
 		shader.SetFilePath("res/shaders/BasicColor.shader");
 	}
 
-	Material(Material_Table Type)
+	void Set(Material_Table Type)
 	{
 		shader.SetFilePath("res/shaders/BasicColor.shader");
 		switch (Type) {

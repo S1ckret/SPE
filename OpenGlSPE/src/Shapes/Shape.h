@@ -50,6 +50,8 @@ public:
 	virtual ~Shape();
 	virtual Shape* Clone() = 0;
 
+	void SetMaterial(Material_Table mt = Material_Table::Static);
+
 	void SetVerticies(Vertex* verticies, unsigned int count);
 	void SetVerticiesPositions(float* positions, unsigned int count);
 	void SetVerticiesColors(float* colors, unsigned int count);
@@ -62,8 +64,13 @@ public:
 	void Rotate(float d_rad);
 	void SetRotation(float rad);
 
+	const Material & GetMaterial() const;
+
 	const glm::vec2 GetPosition() const;
 	const float GetOrientation() const;
+
+	const unsigned int GetVerticiesCount() const;
+	const Vertex * GetVerticies() const;
 
 	virtual void Draw(Renderer& renderer);
 protected:

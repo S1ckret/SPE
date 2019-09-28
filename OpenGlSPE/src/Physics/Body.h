@@ -24,6 +24,9 @@ public:
 
 	void Draw(Renderer& renderer);
 private:
+	void ComputeMass();
+
+private:
 	Shape* m_shape;
 
 	glm::vec2 m_velocity;
@@ -34,4 +37,5 @@ private:
 	float m_torque;
 
 	MassData m_MassData;
+	glm::vec2 m_centeroid;
 };

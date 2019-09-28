@@ -6,7 +6,6 @@ Circle::Circle() :
 	Shape(),
 	m_radius(1.f)
 {
-	m_material.draw_type = GL_LINE_LOOP;
 	LOG_INFO("+++   Circle_1.");
 }
 
@@ -15,7 +14,6 @@ Circle::Circle(float r, unsigned int verticies_count) :
 	m_radius(r)
 {
 	m_verticies_count = verticies_count;
-	m_material.draw_type = GL_LINE_LOOP;
 	GenVerticiesPositions();
 	InitBuffers();
 	LOG_INFO("+++   Circle_2.");

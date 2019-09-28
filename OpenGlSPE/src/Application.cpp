@@ -109,11 +109,11 @@ void Application::Init()
 	poly = new Poly;
 	poly->SetVerticies(verticies_poly, 4);
 	poly->Translate(-30.f, 0.f);
+	poly->SetMaterial(Material_Table::Wood);
 
 	body.SetShape(poly);
 	body.ApplyForceToCenter(glm::vec2(1.f, 0.f));
 	body.ApplyTorque(0.1f);
-
 }
 
 void Application::HandleInput()

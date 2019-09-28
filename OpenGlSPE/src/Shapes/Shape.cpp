@@ -16,6 +16,11 @@ Shape::~Shape()
 	LOG_CRITICAL("~~~   Shape.");
 }
 
+void Shape::SetMaterial(Material_Table mt)
+{
+	m_material.Set(mt);
+}
+
 void Shape::SetVerticies(Vertex * verticies, unsigned int count)
 {
 	if (m_verticies.size() != count) {
@@ -90,6 +95,11 @@ void Shape::SetRotation(float rad)
 	m_rotation_mat = glm::rotate(m_rotation_mat, m_orientation, glm::vec3(0.f, 0.f, 1.f));
 }
 
+const Material & Shape::GetMaterial() const
+{
+	return m_material;
+}
+
 const glm::vec2 Shape::GetPosition() const
 {
 	return m_translation;
@@ -98,6 +108,16 @@ const glm::vec2 Shape::GetPosition() const
 const float Shape::GetOrientation() const
 {
 	return m_orientation;
+}
+
+const unsigned int Shape::GetVerticiesCount() const
+{
+	return m_verticies_count;
+}
+
+const Vertex * Shape::GetVerticies() const
+{
+	return &m_verticies[0];
 }
 
 void Shape::Draw(Renderer & renderer)

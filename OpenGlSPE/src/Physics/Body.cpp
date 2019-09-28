@@ -16,7 +16,7 @@ Body::~Body()
 void Body::SetShape(Shape * shape)
 {
 	m_shape = shape->Clone();
-	LOG_INFO(typeid(m_shape).name());
+	ComputeMass();
 }
 
 void Body::ApplyImpulseToCenter(glm::vec2 impulse)
@@ -65,4 +65,43 @@ void Body::Update(float dt)
 void Body::Draw(Renderer& renderer)
 {
 	m_shape->Draw(renderer);
+}
+
+// Source_0 >> http://richardson.eng.ua.edu/Former_Courses/CE_331_fa09/Projects/A_and_I_of_Polygon.pdf
+// Source_1 >> https://github.com/RandyGaul/ImpulseEngine/blob/master/Shape.h
+void Body::ComputeMass()
+{
+	float area = 0.0f;
+	float I = 0.0f;
+	constexpr float k_inv3 = 1.0f / 3.0f;
+
+	unsigned int i = 0;
+	const Vertex * verticies = m_shape->GetVerticies();
+	do
+	{
+		unsigned int next = (i + 1) % m_shape->GetVerticiesCount();
+		
+		glm::vec2 A = verticies[i].position;
+		glm::vec2 B = verticies[next].position;
+
+		float crossProd = glm::cross(glm::vec3(A, 0.f), glm::vec3(B, 0.f)).z;
+		float triangleArea = 0.5f * crossProd;
+		area += triangleArea;
+
+		m_centeroid += triangleArea * k_inv3 * (A + B);
+
+		float Ix = A.x * A.x + A.x * B.x + B.x + B.x;
+		float Iy = A.y * A.y + A.y * B.y + B.y + B.y;
+		I += (0.25f * k_inv3 * crossProd) * (Ix + Iy);
+		
+		i = next;
+	} while (i);
+
+	m_centeroid *= 1.0f / area;
+
+	m_MassData.mass = m_shape->GetMaterial().density * area;
+	m_MassData.inv_mass = (m_MassData.mass) ? 1.0f / m_MassData.mass : 0.0f;
+	m_MassData.I = I * m_shape->GetMaterial().density;
+	m_MassData.inv_I = m_MassData.I ? 1.0f / m_MassData.I : 0.0f;
+	LOG_INFO("\t Mass: {0}\t Inv_Mass: {1}\t I: {2}\tInv_I: {3}", m_MassData.mass, m_MassData.inv_mass, m_MassData.I, m_MassData.inv_I);
 }
