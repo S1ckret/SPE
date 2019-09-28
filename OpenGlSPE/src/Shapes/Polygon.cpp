@@ -46,7 +46,7 @@ void Poly::GenNormals()
 
 void Poly::DrawNormals(Renderer& renderer)
 {
-	renderer.DrawNormal(m_vertex_array_normal, m_verticies_count * 2, m_model_mat);
+	renderer.DrawNormal(m_vertex_array_normal, m_verticies_count * 2, m_translation_mat * m_rotation_mat);
 }
 
 void Poly::InitBuffers()

@@ -104,16 +104,16 @@ void Application::Init()
 		{-5.f, -5.f, 1.f, 0.f, 0.f},
 		{5.f, -5.f, 0.f, 1.f, 0.f},
 		{5.f, 5.f, 0.f, 0.f, 1.f},
-		{-5.f, 5.f, 0.f, 0.f, 1.f},
+		{-5.f, 5.f, 0.f, 0.f, 0.f},
 	};
 	poly = new Poly;
 	poly->SetVerticies(verticies_poly, 4);
+	poly->Translate(-30.f, 0.f);
 
 	body.SetShape(poly);
 	body.ApplyForceToCenter(glm::vec2(1.f, 0.f));
 	body.ApplyTorque(0.1f);
 
-	poly->Translate(-30.f, -30.f);
 }
 
 void Application::HandleInput()

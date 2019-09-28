@@ -71,9 +71,12 @@ protected:
 
 protected:
 	std::vector<Vertex> m_verticies;
-	glm::mat4 m_model_mat;
+	glm::mat4 m_translation_mat;
+	glm::mat4 m_rotation_mat;
+
 	glm::vec2 m_translation;
 	float m_orientation;
+
 	unsigned int m_verticies_count;
 
 	VertexBuffer m_vertex_buffer;

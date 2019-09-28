@@ -1,7 +1,8 @@
 #include "Shape.h"
 
 Shape::Shape() :
-	m_model_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
+	m_translation_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
+	m_rotation_mat(glm::ortho(-1.f, 1.f, -1.f, 1.f, -1.0f, 1.0f)),
 	m_translation(glm::vec2(0.f, 0.f)),
 	m_orientation(0.f),
 	m_verticies_count(0.f)
@@ -55,20 +56,20 @@ void Shape::SetVerticiesColors(float * colors, unsigned int count)
 void Shape::Translate(float x, float y)
 {
 	m_translation += glm::vec2(x, y);
-	m_model_mat = glm::translate(m_model_mat, glm::vec3(x, y, 0.f));
+	m_translation_mat = glm::translate(m_translation_mat, glm::vec3(x, y, 0.f));
 }
 
 void Shape::Translate(glm::vec2 tr)
 {
 	m_translation += tr;
-	m_model_mat = glm::translate(m_model_mat, glm::vec3(tr, 0.f));
+	m_translation_mat = glm::translate(m_translation_mat, glm::vec3(tr, 0.f));
 }
 
 void Shape::SetTranslation(float x, float y)
 {
-	m_model_mat = glm::translate(m_model_mat, glm::vec3(-m_translation, 0.f));
+	m_translation_mat = glm::translate(m_translation_mat, glm::vec3(-m_translation, 0.f));
 	m_translation = glm::vec2(x, y);
-	m_model_mat = glm::translate(m_model_mat, glm::vec3(m_translation, 0.f));
+	m_translation_mat = glm::translate(m_translation_mat, glm::vec3(m_translation, 0.f));
 }
 
 void Shape::SetTranslation(glm::vec2 tr)
@@ -79,14 +80,14 @@ void Shape::SetTranslation(glm::vec2 tr)
 void Shape::Rotate(float d_rad)
 {
 	m_orientation += d_rad;
-	m_model_mat = glm::rotate(m_model_mat, d_rad, glm::vec3(0.f, 0.f, 1.f));
+	m_rotation_mat = glm::rotate(m_rotation_mat, d_rad, glm::vec3(0.f, 0.f, 1.f));
 }
 
 void Shape::SetRotation(float rad)
 {
-	m_model_mat = glm::rotate(m_model_mat, -m_orientation, glm::vec3(0.f, 0.f, 1.f));
+	m_rotation_mat = glm::rotate(m_rotation_mat, -m_orientation, glm::vec3(0.f, 0.f, 1.f));
 	m_orientation = rad;
-	m_model_mat = glm::rotate(m_model_mat, m_orientation, glm::vec3(0.f, 0.f, 1.f));
+	m_rotation_mat = glm::rotate(m_rotation_mat, m_orientation, glm::vec3(0.f, 0.f, 1.f));
 }
 
 const glm::vec2 Shape::GetPosition() const
@@ -102,7 +103,7 @@ const float Shape::GetOrientation() const
 void Shape::Draw(Renderer & renderer)
 {
 	m_material.shader.Bind();
-	m_material.shader.setUniformMat4f("model", m_model_mat);
+	m_material.shader.setUniformMat4f("model", m_translation_mat * m_rotation_mat);
 
 	renderer.Draw(m_vertex_array, m_material, m_verticies.size());
 }
