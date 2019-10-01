@@ -32,31 +32,25 @@ void Renderer::SetView(const View * view)
 	m_view = view;
 }
 
-void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, Shader & shader) const
+void Renderer::Draw(const VertexArray & va, const IndexBuffer & ib, ShaderBundle & shader_bundle) const
 {
 	va.Bind();
 	ib.Bind();
-	shader.setUniformMat4f("view", m_view->GetView());
-	shader.setUniformMat4f("projection", PROJ);
-	shader.Bind();
-	GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
+	BindShader(shader_bundle.shader);
+	GLCall(glDrawElements(shader_bundle.draw_type, ib.getCount(), GL_UNSIGNED_INT, nullptr));
 	ib.Unbind();
 }
 
-void Renderer::Draw(const VertexArray & va, Material & material, unsigned int vertex_count) const
+void Renderer::Draw(const VertexArray & va, ShaderBundle & shader_bundle, unsigned int vertex_count) const
 {
 	va.Bind();
-	material.shader.Bind();
-	material.shader.setUniformMat4f("view", m_view->GetView());
-	material.shader.setUniformMat4f("projection", PROJ);
-	GLCall(glDrawArrays(GL_LINE_LOOP, 0, vertex_count));
+	BindShader(shader_bundle.shader);
+	GLCall(glDrawArrays(shader_bundle.draw_type, 0, vertex_count));
 }
 
-void Renderer::Draw(const VertexArray & va, Shader & shader, unsigned int vertex_count) const
+void Renderer::BindShader(Shader & shader) const
 {
-	va.Bind();
 	shader.Bind();
 	shader.setUniformMat4f("view", m_view->GetView());
 	shader.setUniformMat4f("projection", PROJ);
-	GLCall(glDrawArrays(GL_LINES, 0, vertex_count));
 }

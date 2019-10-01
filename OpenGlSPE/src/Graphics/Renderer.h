@@ -25,9 +25,10 @@ public:
 
 	void SetView(const View* view);
 
-	void Draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader) const;
-	void Draw(const VertexArray& va, Material& material, unsigned int vertex_count) const;
-	void Draw(const VertexArray& va, Shader& shader, unsigned int vertex_count) const;
+	void Draw(const VertexArray& va, const IndexBuffer& ib, ShaderBundle& shader) const;
+	void Draw(const VertexArray& va, ShaderBundle& shader, unsigned int vertex_count) const;
+private:
+	void BindShader(Shader& shader) const;
 private:
 	const View* m_view;
 };

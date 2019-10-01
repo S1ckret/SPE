@@ -31,20 +31,14 @@ struct Material
 	float density;
 	float restitution;
 
-	unsigned int draw_type;
-	Shader shader;
-
 	Material() :
 		density(0.f),
-		restitution(0.f),
-		draw_type(GL_LINE_LOOP)
+		restitution(0.f)
 	{
-		shader.SetFilePath("res/shaders/BasicColor.shader");
 	}
 
 	void Set(Material_Table Type)
 	{
-		shader.SetFilePath("res/shaders/BasicColor.shader");
 		switch (Type) {
 		case Material_Table::Rock: density = 0.6f; restitution = 0.1f;
 			break;

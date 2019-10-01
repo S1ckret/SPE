@@ -1,12 +1,13 @@
 #include "Polygon.h"
 
-Shader Poly::s_normal_shader;
+ShaderBundle Poly::s_normal_shader_bundle;
 
 Poly::Poly()
 {
-	if (!s_normal_shader.Loaded()) {
-		s_normal_shader.SetFilePath("res/shaders/Normal.shader");
-		
+	if (!s_normal_shader_bundle.shader.Loaded()) 
+	{
+		s_normal_shader_bundle.shader.SetFilePath("res/shaders/Normal.shader");
+		s_normal_shader_bundle.draw_type = GL_LINES;
 	}
 	LOG_INFO("+++   Poly.");
 }
@@ -51,9 +52,9 @@ void Poly::GenNormals()
 
 void Poly::DrawNormals(Renderer& renderer)
 {
-	s_normal_shader.Bind();
-	s_normal_shader.setUniformMat4f("model", this->m_translation_mat * this->m_rotation_mat);
-	renderer.Draw(m_vertex_array_normal, s_normal_shader, m_verticies_count * 2);
+	s_normal_shader_bundle.shader.Bind();
+	s_normal_shader_bundle.shader.setUniformMat4f("model", this->m_translation_mat * this->m_rotation_mat);
+	renderer.Draw(m_vertex_array_normal, s_normal_shader_bundle, m_verticies_count * 2);
 }
 
 void Poly::InitBuffers()

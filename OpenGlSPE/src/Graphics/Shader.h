@@ -1,4 +1,5 @@
 #pragma once
+#include "Physics\Material.h"
 
 struct ShaderProgram {
 	std::string VertexShader;
@@ -31,4 +32,29 @@ private:
 	std::string m_FilePath;
 	unsigned int m_RendererID;
 	std::unordered_map<std::string, int> m_LocationCache;
+};
+
+struct ShaderBundle
+{
+	unsigned int draw_type;
+	Shader shader;
+
+	ShaderBundle() : draw_type(GL_LINE_LOOP)
+	{
+	//	shader.SetFilePath("res/shaders/BasicColor.shader");
+	}
+	void Set(Material_Table Type = Material_Table::Static, bool conectivity = 1)
+	{
+		if (conectivity) {
+			switch (Type) 
+			{
+			default: shader.SetFilePath("res/shaders/BasicColor.shader");
+				break;
+			}
+		}
+		else
+		{
+			shader.SetFilePath("res/shaders/BasicColor.shader");
+		}
+	}
 };

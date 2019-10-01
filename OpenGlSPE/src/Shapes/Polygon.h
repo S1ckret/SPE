@@ -23,5 +23,5 @@ private:
 	VertexArray m_vertex_array_normal;
 	VertexBufferLayout m_vertex_layout_normal;
 	
-	static Shader s_normal_shader;
+	static ShaderBundle s_normal_shader_bundle;
 };

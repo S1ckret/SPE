@@ -45,7 +45,7 @@ public:
 	virtual ~Shape();
 	virtual Shape* Clone() = 0;
 
-	void SetMaterial(Material_Table mt = Material_Table::Static);
+	void SetMaterial(Material_Table mt = Material_Table::Static, bool connectivity = 1);
 
 	void SetVerticies(Vertex* verticies, unsigned int count);
 	void SetVerticiesPositions(float* positions, unsigned int count);
@@ -60,6 +60,7 @@ public:
 	void SetRotation(float rad);
 
 	const Material & GetMaterial() const;
+	const ShaderBundle & GetShaderBundle() const;
 
 	const glm::vec2 GetPosition() const;
 	const float GetOrientation() const;
@@ -84,5 +85,6 @@ protected:
 	VertexBuffer m_vertex_buffer;
 	VertexArray m_vertex_array;
 	VertexBufferLayout m_vertex_layout;
+	ShaderBundle m_shader_bundle;
 	Material m_material;
 };

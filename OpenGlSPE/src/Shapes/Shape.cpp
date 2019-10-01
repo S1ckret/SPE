@@ -7,6 +7,7 @@ Shape::Shape() :
 	m_orientation(0.f),
 	m_verticies_count(0.f)
 {
+	m_shader_bundle.Set();
 	LOG_INFO("+++   Shape.");
 }
 
@@ -16,9 +17,10 @@ Shape::~Shape()
 	LOG_CRITICAL("~~~   Shape.");
 }
 
-void Shape::SetMaterial(Material_Table mt)
+void Shape::SetMaterial(Material_Table mt, bool connectivity)
 {
 	m_material.Set(mt);
+	m_shader_bundle.Set(mt, connectivity);
 }
 
 void Shape::SetVerticies(Vertex * verticies, unsigned int count)
@@ -100,6 +102,11 @@ const Material & Shape::GetMaterial() const
 	return m_material;
 }
 
+const ShaderBundle & Shape::GetShaderBundle() const
+{
+	return m_shader_bundle;
+}
+
 const glm::vec2 Shape::GetPosition() const
 {
 	return m_translation;
@@ -122,10 +129,10 @@ const Vertex * Shape::GetVerticies() const
 
 void Shape::Draw(Renderer & renderer)
 {
-	m_material.shader.Bind();
-	m_material.shader.setUniformMat4f("model", m_translation_mat * m_rotation_mat);
+	m_shader_bundle.shader.Bind();
+	m_shader_bundle.shader.setUniformMat4f("model", m_translation_mat * m_rotation_mat);
 
-	renderer.Draw(m_vertex_array, m_material, m_verticies.size());
+	renderer.Draw(m_vertex_array, m_shader_bundle, m_verticies.size());
 }
 
 void Shape::InitBuffers()
