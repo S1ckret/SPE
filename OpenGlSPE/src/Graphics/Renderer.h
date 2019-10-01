@@ -20,15 +20,14 @@ class Renderer
 {
 public:
 	Renderer();
-	// To Do: Material instead of shader
+
 	void Clear() const;
 
 	void SetView(const View* view);
 
 	void Draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader) const;
-	void Draw(const VertexArray& va, Material& ma, unsigned int vertex_count) const;
-	void DrawNormal(const VertexArray & va, unsigned int vertex_count, const glm::mat4& model_mat);
+	void Draw(const VertexArray& va, Material& material, unsigned int vertex_count) const;
+	void Draw(const VertexArray& va, Shader& shader, unsigned int vertex_count) const;
 private:
 	const View* m_view;
-	Shader m_normal_shader;
 };

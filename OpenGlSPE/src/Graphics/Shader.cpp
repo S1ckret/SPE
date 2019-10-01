@@ -26,6 +26,7 @@ void Shader::SetFilePath(const std::string & filepath)
 	m_FilePath = filepath;
 	ShaderProgram shaderProgram = ParseShader(filepath);
 	m_RendererID = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
+	LOG_INFO("RENDERER ID {1}: {0}", m_RendererID, m_FilePath);
 }
 
 void Shader::Bind() const
@@ -46,6 +47,11 @@ void Shader::setUniform4f(const std::string & name, float v0, float v1, float v2
 void Shader::setUniformMat4f(const std::string & name, const glm::mat4 & matrix)
 {
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
+}
+
+bool Shader::Loaded() const
+{
+	return m_RendererID;
 }
 
 unsigned int Shader::GetUniformLocation(const std::string & name)
