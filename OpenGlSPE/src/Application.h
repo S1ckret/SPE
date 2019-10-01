@@ -1,8 +1,5 @@
 #pragma once
 
-#include "GL\glew.h"
-#include "GLFW\glfw3.h"
-
 #include "Graphics\Renderer.h"
 #include "Graphics\IndexBuffer.h"
 #include "Graphics\VertexBuffer.h"
@@ -18,13 +15,6 @@
 #include "Physics\Body.h"
 
 #include "FrameTimer.h"
-
-#include "vendor\imgui\imgui.h"
-#include "vendor\imgui\imgui_impl_opengl3.h"
-#include "vendor\imgui\imgui_impl_glfw.h"
-
-#include "glm\glm.hpp"
-#include "glm\gtc\matrix_transform.hpp"
 
 class Application
 {

@@ -1,8 +1,4 @@
 #pragma once
-#include <string>
-#include "GL\glew.h"
-#include <unordered_map>
-#include "glm\glm.hpp"
 
 struct ShaderProgram {
 	std::string VertexShader;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Graphics\Shader.h"
+
 enum Material_Table {
 	Rock = 0,
 	Wood,

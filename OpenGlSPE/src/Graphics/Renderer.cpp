@@ -1,6 +1,4 @@
 #include "Renderer.h"
-#include <iostream>
-#include "Log.h"
 
 glm::mat4 PROJ = glm::ortho(-20.f, 20.f, -20.f, 20.f, -1.0f, 1.0f);
 

@@ -1,9 +1,6 @@
 #include "Shader.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
 #include "Renderer.h"
+
 Shader::Shader() :
 	m_FilePath(""),
 	m_RendererID(0)

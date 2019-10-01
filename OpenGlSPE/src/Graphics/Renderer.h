@@ -1,13 +1,11 @@
 #pragma once
 
-#include "GL\glew.h"
+#include "Graphics\VertexArray.h"
+#include "Graphics\IndexBuffer.h"
+#include "Graphics\Shader.h"
+#include "Graphics\View.h"
 
-#include "VertexArray.h"
-#include "IndexBuffer.h"
-#include "Shader.h"
-#include "View.h"
 #include "Physics\Material.h"
-#include "Log.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak();
 #define GLCall(x) GLClearErrors();\

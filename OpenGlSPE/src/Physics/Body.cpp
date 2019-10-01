@@ -1,4 +1,5 @@
 #include "Body.h"
+
 Body::Body() :
 	m_velocity({0.f, 0.f}),
 	m_acceleration({0.f, 0.f}),

@@ -1,5 +1,5 @@
 #include "View.h"
-#include "Log.h"
+
 View::View() :
 	m_translation(glm::vec2(0.f, 0.f)),
 	m_zoom(1.f),
