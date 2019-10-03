@@ -5,6 +5,7 @@ VertexArray::VertexArray()
 {
 	GLCall(glGenVertexArrays(1, &m_RendererID));
 	GLCall(glBindVertexArray(m_RendererID));
+	LOG_INFO("\t VertexArray #{0}", m_RendererID);
 }
 
 VertexArray::~VertexArray()

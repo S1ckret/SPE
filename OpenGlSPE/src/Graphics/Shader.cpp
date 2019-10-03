@@ -14,6 +14,7 @@ Shader::Shader(const std::string & filepath) :
 {
 	ShaderProgram shaderProgram = ParseShader(filepath);
 	m_RendererID = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
+	LOG_INFO("\t Shader #{0}", m_RendererID);
 }
 
 Shader::~Shader()
@@ -26,7 +27,7 @@ void Shader::SetFilePath(const std::string & filepath)
 	m_FilePath = filepath;
 	ShaderProgram shaderProgram = ParseShader(filepath);
 	m_RendererID = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
-	LOG_INFO("RENDERER ID {1}: {0}", m_RendererID, m_FilePath);
+	LOG_INFO("\t Shader #{0}\t{1}", m_RendererID, filepath);
 }
 
 void Shader::Bind() const

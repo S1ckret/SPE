@@ -16,6 +16,7 @@ Body::~Body()
 
 void Body::SetShape(Shape * shape)
 {
+	LOG_INFO("=== Body");
 	m_shape = shape->Clone();
 	ComputeMass();
 }

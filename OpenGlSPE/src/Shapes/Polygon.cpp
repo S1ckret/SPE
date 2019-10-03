@@ -19,7 +19,14 @@ Poly::~Poly()
 
 Shape * Poly::Clone()
 {
-	return new Poly(*this);
+	Poly *poly = new Poly;
+	poly->SetVerticies(&m_verticies[0], m_verticies_count);
+	poly->SetTranslation(m_translation);
+	poly->SetRotation(m_orientation);
+	poly->m_material = m_material;
+	poly->m_shader_bundle = m_shader_bundle;
+
+	return poly;
 }
 
 void Poly::Draw(Renderer & renderer)

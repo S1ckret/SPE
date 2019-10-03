@@ -9,6 +9,7 @@ VertexBuffer::VertexBuffer() :
 VertexBuffer::VertexBuffer(const void * data, unsigned int size)
 {
 	SetData(data, size);
+	LOG_INFO("\t VertexBuffer #{0}", m_RendererID);
 }
 
 VertexBuffer::~VertexBuffer()

@@ -26,7 +26,14 @@ Circle::~Circle()
 
 Shape * Circle::Clone()
 {
-	return new Circle(*this);
+	Circle *c = new Circle;
+	c->SetRadius(m_radius, m_verticies_count);
+	c->SetTranslation(m_translation);
+	c->SetRotation(m_orientation);
+	c->m_material = m_material;
+	c->m_shader_bundle = m_shader_bundle;
+
+	return c;
 }
 
 void Circle::SetRadius(float r, unsigned int verticies_count)

@@ -113,7 +113,22 @@ void Application::Init()
 
 	body.SetShape(poly);
 	body.ApplyForceToCenter(glm::vec2(1.f, 0.f));
-	body.ApplyTorque(0.1f);
+	body.ApplyTorque(1.f);
+
+	Vertex verticies_poly1[] = {
+		{-5.f, -5.f, 1.f, 0.f, 0.f},
+		{5.f, -5.f, 0.f, 1.f, 0.f},
+		{10.f, 5.f, 0.f, 0.f, 1.f},
+		{5.f, 10.f, 0.f, 0.f, 0.f},
+		{-5.f, 5.f, 0.f, 0.f, 0.f}
+	};
+
+	poly->SetVerticies(verticies_poly1, 5);
+	poly->SetTranslation(glm::vec2(0.f, -30.f));
+	body1.SetShape(poly);
+	body1.ApplyForceToCenter(glm::vec2(-1.f, 1.5f));
+	body1.ApplyTorque(-2.f);
+
 }
 
 void Application::HandleInput()
@@ -123,6 +138,7 @@ void Application::HandleInput()
 void Application::Update(const float dt)
 {
 	body.Update(dt);
+	body1.Update(dt);
 }
 
 void Application::HandleEvent()
@@ -209,8 +225,10 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 void Application::Draw()
 {
 	circle->Draw(*renderer);
-	poly->Draw(*renderer);
+//	poly->Draw(*renderer);
 	body.Draw(*renderer);
+	body1.Draw(*renderer);
+
 }
 
 void Application::ImGuiDraw()
