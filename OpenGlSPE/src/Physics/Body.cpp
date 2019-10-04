@@ -12,12 +12,15 @@ Body::Body() :
 
 Body::~Body()
 {
+	delete m_shape;
+	delete m_aabb;
 }
 
 void Body::SetShape(Shape * shape)
 {
 	LOG_INFO("=== Body");
 	m_shape = shape->Clone();
+	m_aabb = new AABB;
 	ComputeMass();
 }
 
@@ -62,11 +65,13 @@ void Body::Update(float dt)
 
 	m_shape->Translate(m_velocity);
 	m_shape->Rotate(m_angular_velocity);
+	m_aabb->GenerateVerticies(m_shape->GetVerticies(), m_shape->GetRotationMat(), m_shape->GetVerticiesCount());
 }
 
 void Body::Draw(Renderer& renderer)
 {
 	m_shape->Draw(renderer);
+	m_aabb->Draw(renderer, m_shape->GetTranslationMat());
 }
 
 // Source_0 >> http://richardson.eng.ua.edu/Former_Courses/CE_331_fa09/Projects/A_and_I_of_Polygon.pdf

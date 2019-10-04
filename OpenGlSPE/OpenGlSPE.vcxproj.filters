@@ -81,6 +81,9 @@
     <ClCompile Include="src\Shapes\Circle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vendor\glm\detail\func_common.inl">
@@ -487,6 +490,7 @@
     </None>
     <None Include="res\shaders\BasicColor.shader" />
     <None Include="res\shaders\Normal.shader" />
+    <None Include="res\shaders\AABB.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vendor\imgui\imconfig.h">
@@ -1516,6 +1520,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

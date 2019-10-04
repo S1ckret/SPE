@@ -4,6 +4,7 @@
 #include "Shapes\Polygon.h"
 
 #include "Physics\Material.h"
+#include "Physics\AABB.h"
 
 class Body
 {
@@ -28,6 +29,7 @@ private:
 
 private:
 	Shape* m_shape;
+	AABB* m_aabb;
 
 	glm::vec2 m_velocity;
 	glm::vec2 m_acceleration;

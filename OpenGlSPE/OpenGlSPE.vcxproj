@@ -147,6 +147,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Physics\AABB.cpp" />
     <ClCompile Include="src\Physics\Body.cpp" />
     <ClCompile Include="src\Shapes\Circle.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\AABB.shader" />
     <None Include="res\shaders\Normal.shader" />
     <None Include="res\shaders\BasicColor.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
@@ -309,6 +311,7 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\FrameTimer.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Physics\AABB.h" />
     <ClInclude Include="src\Physics\Body.h" />
     <ClInclude Include="src\Shapes\Circle.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />

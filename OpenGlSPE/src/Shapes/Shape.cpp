@@ -127,6 +127,16 @@ const Vertex * Shape::GetVerticies() const
 	return &m_verticies[0];
 }
 
+const glm::mat4 & Shape::GetRotationMat() const
+{
+	return m_rotation_mat;
+}
+
+const glm::mat4 & Shape::GetTranslationMat() const
+{
+	return m_translation_mat;
+}
+
 void Shape::Draw(Renderer & renderer)
 {
 	m_shader_bundle.shader.Bind();
