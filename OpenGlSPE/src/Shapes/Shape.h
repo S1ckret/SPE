@@ -67,8 +67,10 @@ public:
 
 	const unsigned int GetVerticiesCount() const;
 	const Vertex * GetVerticies() const;
+	
 	const glm::mat4 & GetRotationMat() const;
 	const glm::mat4 & GetTranslationMat() const;
+	const glm::vec2 & GetTranslationVec() const;
 
 	virtual void Draw(Renderer& renderer);
 protected:

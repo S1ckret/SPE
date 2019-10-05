@@ -13,6 +13,7 @@
 #include "Shapes\Polygon.h"
 
 #include "Physics\Body.h"
+#include "Physics\World.h"
 
 #include "FrameTimer.h"
 
@@ -46,9 +47,9 @@ private:
 	View view;
 	Circle* circle;
 	Poly* poly;
-	Poly* poly1;
-	Body body;
-	Body body1;
+	World world;
+	Body* body;
+	Body* body1;
 
 	GLFWwindow* window;
 

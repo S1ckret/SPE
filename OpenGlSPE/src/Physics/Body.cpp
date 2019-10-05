@@ -21,6 +21,8 @@ void Body::SetShape(Shape * shape)
 	LOG_INFO("=== Body");
 	m_shape = shape->Clone();
 	m_aabb = new AABB;
+	m_aabb->SetShape(m_shape);
+	m_aabb->GenerateVerticies(m_shape->GetVerticies(), m_shape->GetRotationMat(), m_shape->GetVerticiesCount());
 	ComputeMass();
 }
 
@@ -66,6 +68,16 @@ void Body::Update(float dt)
 	m_shape->Translate(m_velocity);
 	m_shape->Rotate(m_angular_velocity);
 	m_aabb->GenerateVerticies(m_shape->GetVerticies(), m_shape->GetRotationMat(), m_shape->GetVerticiesCount());
+}
+
+const Shape * Body::GetShape() const
+{
+	return m_shape;
+}
+
+const AABB * Body::GetAABB() const
+{
+	return m_aabb;
 }
 
 void Body::Draw(Renderer& renderer)

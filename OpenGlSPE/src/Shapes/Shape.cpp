@@ -137,6 +137,11 @@ const glm::mat4 & Shape::GetTranslationMat() const
 	return m_translation_mat;
 }
 
+const glm::vec2 & Shape::GetTranslationVec() const
+{
+	return m_translation;
+}
+
 void Shape::Draw(Renderer & renderer)
 {
 	m_shader_bundle.shader.Bind();

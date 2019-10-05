@@ -23,6 +23,9 @@ public:
 
 	void Update(float dt);
 
+	const Shape* GetShape() const;
+	const AABB* GetAABB() const;
+
 	void Draw(Renderer& renderer);
 private:
 	void ComputeMass();

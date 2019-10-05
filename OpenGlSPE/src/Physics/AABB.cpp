@@ -9,7 +9,7 @@ AABB::AABB()
 		s_shader_bundle.shader.SetFilePath("res/shaders/AABB.shader");
 		s_shader_bundle.draw_type = GL_LINE_LOOP;
 	}
-	LOG_INFO("+++ AABB.");
+	
 
 	m_vertex_buffer.SetData(&m_positions[0], 4 * sizeof(glm::vec2));
 
@@ -20,12 +20,29 @@ AABB::AABB()
 
 	m_vertex_buffer.Unbind();
 	m_vertex_array.Unbind();
+	LOG_INFO("+++ AABB.");
+}
 
+AABB::~AABB()
+{
 }
 
 const glm::vec2 * AABB::GetPositions() const
 {
 	return &m_positions[0];
+}
+
+void AABB::SetShape(const Shape * shape)
+{
+	m_shape_ptr = shape;
+}
+
+void AABB::GenerateVerticies(Circle * circle)
+{
+}
+
+void AABB::GenerateVerticies(Poly * poly)
+{
 }
 
 void AABB::GenerateVerticies(const Vertex * verticies, const glm::mat4& rotation_mat, int count)
@@ -48,10 +65,50 @@ void AABB::GenerateVerticies(const Vertex * verticies, const glm::mat4& rotation
 	m_vertex_buffer.SetNewData(&m_positions[0], 4 * sizeof(glm::vec2));
 }
 
+bool AABB::isOverlaping(const AABB * rhs) const
+{
+	glm::vec2 * temp = new glm::vec2[4];
+	CopyPositions(temp, rhs->GetPositions(), 4);
+	ApplyMat4(temp, rhs->m_shape_ptr->GetTranslationVec() - m_shape_ptr->GetTranslationVec(), 4);
+	bool b = !(temp[0].x > m_positions[1].x
+		  || temp[1].x < m_positions[0].x
+		  || temp[0].y > m_positions[2].y
+		  || temp[2].y < m_positions[0].y);
+
+	delete[] temp;
+	return b;
+
+}
+
 void AABB::Draw(Renderer & renderer, const glm::mat4 & translation_mat)
 {
 	s_shader_bundle.shader.Bind();
 	s_shader_bundle.shader.setUniformMat4f("model", translation_mat);
 
 	renderer.Draw(m_vertex_array, s_shader_bundle, 4);
+}
+
+void ApplyMat4(glm::vec2 * positions, const glm::vec2& translation_vector, unsigned int count)
+{
+	for (unsigned int i = 0; i < count; i++)
+	{
+		
+		positions[i] = translation_vector + positions[i];
+	}
+}
+
+bool isAabbOverlaping(AABB * a, AABB * b)
+{
+	return !(b->m_positions[0].x > a->m_positions[1].x
+		|| b->m_positions[1].x < a->m_positions[0].x
+		|| b->m_positions[0].y > a->m_positions[2].y
+		|| b->m_positions[2].y < a->m_positions[0].y);
+}
+
+void CopyPositions(glm::vec2 * lhs, const glm::vec2 * rhs, unsigned int count)
+{
+	for (unsigned int i = 0; i < count; i++)
+	{
+		lhs[i] = rhs[i];
+	}
 }
