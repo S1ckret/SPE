@@ -25,6 +25,7 @@ AABB::AABB()
 
 AABB::~AABB()
 {
+	LOG_CRITICAL("---AABB");
 }
 
 const glm::vec2 * AABB::GetPositions() const

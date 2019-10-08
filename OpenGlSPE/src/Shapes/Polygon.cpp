@@ -17,6 +17,7 @@ Poly::~Poly()
 	LOG_CRITICAL("~~~   Poly.");
 }
 
+	// To Do: properly cloning
 Shape * Poly::Clone()
 {
 	Poly *poly = new Poly;
@@ -27,6 +28,11 @@ Shape * Poly::Clone()
 	poly->m_shader_bundle = m_shader_bundle;
 
 	return poly;
+}
+
+const unsigned int Poly::GetType() const
+{
+	return PolyType;
 }
 
 void Poly::Draw(Renderer & renderer)

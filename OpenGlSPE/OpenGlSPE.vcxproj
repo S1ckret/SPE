@@ -149,6 +149,7 @@
     </ClCompile>
     <ClCompile Include="src\Physics\AABB.cpp" />
     <ClCompile Include="src\Physics\Body.cpp" />
+    <ClCompile Include="src\Physics\Collision.cpp" />
     <ClCompile Include="src\Physics\World.cpp" />
     <ClCompile Include="src\Shapes\Circle.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
@@ -314,6 +315,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Physics\AABB.h" />
     <ClInclude Include="src\Physics\Body.h" />
+    <ClInclude Include="src\Physics\Collision.h" />
     <ClInclude Include="src\Physics\World.h" />
     <ClInclude Include="src\Shapes\Circle.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />

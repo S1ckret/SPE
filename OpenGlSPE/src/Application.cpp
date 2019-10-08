@@ -94,6 +94,7 @@ void Application::Run()
 
 void Application::Init()
 {
+	world = new World;
 	renderer = new Renderer;
 	renderer->SetView(&view);
 
@@ -111,7 +112,7 @@ void Application::Init()
 	poly->Translate(-30.f, 0.f);
 	poly->SetMaterial(Material_Table::Wood);
 
-	body = world.CreateBody(poly);
+	body = world->CreateBody(poly);
 	body->ApplyForceToCenter(glm::vec2(1.f, 0.f));
 	body->ApplyTorque(1.f);
 
@@ -125,11 +126,20 @@ void Application::Init()
 
 	poly->SetVerticies(verticies_poly1, 5);
 	poly->SetTranslation(glm::vec2(0.f, -30.f));
-	body1 = world.CreateBody(poly);
+	body1 = world->CreateBody(poly);
 	body1->ApplyForceToCenter(glm::vec2(-1.f, 1.5f));
 	body1->ApplyTorque(-2.f);
 
-}
+	Circle cr;
+	cr.SetRadius(3,12);
+	cr.Translate({-10.f, 0.f});
+	cr.SetMaterial(Material_Table::Rock);
+	circle1 = world->CreateBody(&cr);
+	circle1->ApplyForceToCenter({1.f, 0.f});
+
+	cr.SetTranslation({10.f, 0.f});
+	circle2 = world->CreateBody(&cr);
+	circle2->ApplyForceToCenter({-1.f, 0.f});}
 
 void Application::HandleInput()
 {
@@ -137,7 +147,7 @@ void Application::HandleInput()
 
 void Application::Update(const float dt)
 {
-	world.Step(1.f / 60.f);
+	world->Step(1.f / 60.f);
 }
 
 void Application::HandleEvent()
@@ -224,7 +234,7 @@ void Application::CursorPosCallback(GLFWwindow * window, double xpos, double ypo
 void Application::Draw()
 {
 	circle->Draw(*renderer);
-	world.Draw(*renderer);
+	world->Draw(*renderer);
 }
 
 void Application::ImGuiDraw()
@@ -263,8 +273,9 @@ void Application::ImGuiDraw()
 
 void Application::Terminate()
 {
-	delete circle;
-	delete poly;
+//	delete circle;
+//	delete poly;
+	delete world;
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();

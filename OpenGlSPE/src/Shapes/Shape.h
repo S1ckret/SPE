@@ -5,6 +5,12 @@
 #include "Graphics\VertexBuffer.h"
 #include "Graphics\VertexBufferLayout.h"
 
+enum ShapeType
+{
+	CircleType = 0,
+	PolyType
+};
+
 struct Vertex
 {
 	union {
@@ -71,6 +77,8 @@ public:
 	const glm::mat4 & GetRotationMat() const;
 	const glm::mat4 & GetTranslationMat() const;
 	const glm::vec2 & GetTranslationVec() const;
+
+	virtual const unsigned int GetType() const = 0;
 
 	virtual void Draw(Renderer& renderer);
 protected:

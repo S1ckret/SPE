@@ -47,10 +47,10 @@ private:
 	View view;
 	Circle* circle;
 	Poly* poly;
-	World world;
+	World* world;
 	Body* body;
 	Body* body1;
-
+	Body * circle1, *circle2;
 	GLFWwindow* window;
 
 	FrameTimer ft;

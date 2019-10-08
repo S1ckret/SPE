@@ -17,9 +17,22 @@ Shader::Shader(const std::string & filepath) :
 	LOG_INFO("\t Shader #{0}", m_RendererID);
 }
 
+Shader::Shader(const Shader & shader)
+{
+	m_FilePath = shader.m_FilePath;
+	ShaderProgram shaderProgram = ParseShader(m_FilePath);
+	m_RendererID = CreateShader(shaderProgram.VertexShader, shaderProgram.FragmentShader);
+	LOG_INFO("\t Shader #{0}", m_RendererID);
+}
+
 Shader::~Shader()
 {
 	GLCall(glDeleteProgram(m_RendererID));
+}
+
+Shader & Shader::operator=(const Shader & rhs)
+{
+	return Shader(rhs);
 }
 
 void Shader::SetFilePath(const std::string & filepath)

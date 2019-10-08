@@ -49,6 +49,11 @@ float Circle::GetRadius() const
 	return m_radius;
 }
 
+const unsigned int Circle::GetType() const
+{
+	return CircleType;
+}
+
 void Circle::GenVerticiesPositions()
 {
 	if (m_verticies.size() != m_verticies_count)

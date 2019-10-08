@@ -9,8 +9,9 @@ public:
 	~Poly();
 	Shape* Clone() override;
 
-	void Draw(Renderer& renderer);
+	const unsigned int GetType() const override;
 
+	void Draw(Renderer& renderer);
 private:
 	void GenNormals();
 	void DrawNormals(Renderer& renderer);

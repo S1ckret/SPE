@@ -16,6 +16,8 @@ public:
 
 	void SetRadius(float r, unsigned int verticies_count);
 	float GetRadius() const;
+
+	const unsigned int GetType() const override;
 private:
 	void GenVerticiesPositions();
 

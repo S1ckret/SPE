@@ -14,6 +14,7 @@ Body::~Body()
 {
 	delete m_shape;
 	delete m_aabb;
+	LOG_CRITICAL("---Body");
 }
 
 void Body::SetShape(Shape * shape)

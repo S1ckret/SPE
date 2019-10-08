@@ -6,7 +6,11 @@ World::World()
 
 World::~World()
 {
-
+	for (auto i = m_bodies.begin(); i != m_bodies.end(); ++i)
+	{
+		delete (*i);
+	}
+	m_bodies.clear();
 }
 
 void World::Step(float dt)
@@ -40,23 +44,16 @@ void World::Draw(Renderer& renderer)
 
 void World::CollisionDetection()
 {
-	for (auto i = m_bodies.begin(); i != m_bodies.end(); ++i)
-	{
-		for (auto j = std::next(i); j != m_bodies.end(); ++j)
-		{
-			const AABB * A = (*i)->GetAABB();
-			const AABB * B = (*j)->GetAABB();
-
-			if ( A->isOverlaping(B) )
-			{
-				LOG_WARN("Overlap");
-			}
-		}
-	}
+	BroadPhase();
+	NarrowPhase();
 }
 
 void World::CollisionResolution()
 {
+	for (auto i : m_manifolds)
+	{
+		solveCollision(i);
+	}
 }
 
 void World::BodyUpdate(float dt)
@@ -69,8 +66,42 @@ void World::BodyUpdate(float dt)
 
 void World::BroadPhase()
 {
+	m_broad_phase_bodies.clear();
+	for (auto i = m_bodies.begin(); i != m_bodies.end(); ++i)
+	{
+		for (auto j = std::next(i); j != m_bodies.end(); ++j)
+		{
+			const AABB * A = (*i)->GetAABB();
+			const AABB * B = (*j)->GetAABB();
+
+			if ( A->isOverlaping(B) )
+			{
+				m_broad_phase_bodies.push_back( std::make_pair((*i), (*j)) );
+			}
+		}
+	}
 }
 
 void World::NarrowPhase()
 {
+	ClearManifols();
+	for (auto & i : m_broad_phase_bodies)
+	{
+		Manifold * m = new Manifold;
+		m->A = i.first;
+		m->B = i.second;
+		if (CheckCollision()(m))
+		{
+			m_manifolds.push_back(m);
+		}
+		else
+		{
+			delete m;
+		}
+	}
+}
+
+void World::ClearManifols()
+{
+	m_manifolds.clear();
 }

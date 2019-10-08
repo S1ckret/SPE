@@ -1,21 +1,12 @@
 #pragma once
 
-#include "Physics\Body.h"
-
 #include "Shapes\Shape.h"
 #include "Shapes\Circle.h"
 #include "Shapes\Polygon.h"
 
+#include "Physics\Body.h"
+#include "Physics\Collision.h"
 
-struct Manifold
-{
-	Body* A;
-	Body* B;
-
-	glm::vec2 contacts[2];
-	glm::vec2 normal;
-	float penetration;
-};
 
 class World
 {
@@ -36,6 +27,10 @@ private:
 	void BodyUpdate(float dt);
 	void BroadPhase();
 	void NarrowPhase();
+
+	void ClearManifols();
 private:
 	std::list<Body*> m_bodies;
+	std::vector<std::pair<Body*, Body*>> m_broad_phase_bodies;
+	std::vector<Manifold*> m_manifolds;
 };
