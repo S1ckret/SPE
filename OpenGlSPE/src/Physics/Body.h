@@ -25,6 +25,8 @@ public:
 
 	const Shape* GetShape() const;
 	const AABB* GetAABB() const;
+	const glm::vec2 GetVelocity() const;
+	const MassData& GetMassData() const;
 
 	void Draw(Renderer& renderer);
 private:

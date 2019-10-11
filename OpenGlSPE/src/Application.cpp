@@ -135,11 +135,11 @@ void Application::Init()
 	cr.Translate({-10.f, 0.f});
 	cr.SetMaterial(Material_Table::Rock);
 	circle1 = world->CreateBody(&cr);
-	circle1->ApplyForceToCenter({1.f, 0.f});
+	circle1->ApplyForceToCenter({3.f, 0.f});
 
 	cr.SetTranslation({10.f, 0.f});
 	circle2 = world->CreateBody(&cr);
-	circle2->ApplyForceToCenter({-1.f, 0.f});}
+	circle2->ApplyForceToCenter({-3.f, 1.f});}
 
 void Application::HandleInput()
 {

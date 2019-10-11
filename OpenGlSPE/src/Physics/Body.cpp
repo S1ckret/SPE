@@ -81,6 +81,16 @@ const AABB * Body::GetAABB() const
 	return m_aabb;
 }
 
+const glm::vec2 Body::GetVelocity() const
+{
+	return m_velocity;
+}
+
+const MassData & Body::GetMassData() const
+{
+	return m_MassData;
+}
+
 void Body::Draw(Renderer& renderer)
 {
 	m_shape->Draw(renderer);
