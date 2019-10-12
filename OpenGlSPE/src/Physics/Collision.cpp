@@ -183,7 +183,7 @@ Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const unsigned int ver
 	glm::vec2 right_pos = A->GetVertex(right).position;
 	glm::vec2 left_pos = A->GetVertex(left).position;
 
-	glm::vec2 left_edge = current_pos - left_pos;
+	glm::vec2 left_edge = left_pos - current_pos;
 	glm::vec2 right_edge = current_pos - right_pos;
 
 	// The more perpendicular the more dot product is closer to zero.
