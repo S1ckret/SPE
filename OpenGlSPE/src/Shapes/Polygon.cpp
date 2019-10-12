@@ -17,7 +17,6 @@ Poly::~Poly()
 	LOG_CRITICAL("~~~   Poly.");
 }
 
-	// To Do: properly cloning
 Shape * Poly::Clone()
 {
 	Poly *poly = new Poly;
@@ -28,6 +27,33 @@ Shape * Poly::Clone()
 	poly->m_shader_bundle = m_shader_bundle;
 
 	return poly;
+}
+
+const glm::vec2 Poly::GetSupport(const glm::vec2 & direction) const
+{
+	float best_projection = -1000000.f;
+	glm::vec2 best_position;
+	for (auto &v : m_verticies)
+	{
+		glm::vec2 rotated_point = m_rotation_mat * glm::vec4(v.position, 0.f, 0.f);
+		float projection = glm::dot(rotated_point, direction);
+		if (projection > best_projection)
+		{
+			best_projection = projection;
+			best_position = rotated_point;
+		}
+	}
+	return best_position;
+}
+
+const glm::vec2 * Poly::GetNormals() const
+{
+	return &m_normals[0];
+}
+
+const glm::vec2 Poly::GetNormal(const unsigned int index) const
+{
+	return m_rotation_mat * glm::vec4(m_normals[index], 0.f, 0.f);
 }
 
 const unsigned int Poly::GetType() const

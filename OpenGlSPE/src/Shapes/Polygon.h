@@ -8,6 +8,10 @@ public:
 	Poly();
 	~Poly();
 	Shape* Clone() override;
+	
+	const glm::vec2 GetSupport(const glm::vec2 & direction) const;
+	const glm::vec2 * GetNormals() const;
+	const glm::vec2 GetNormal(const unsigned int index) const;
 
 	const unsigned int GetType() const override;
 

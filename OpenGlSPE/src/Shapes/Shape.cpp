@@ -48,6 +48,18 @@ void Shape::SetVerticiesPositions(float * positions, unsigned int count)
 	InitBuffers();
 }
 
+void Shape::SetVerticiesPositions(glm::vec2 * positions, unsigned int count)
+{
+	if (m_verticies.size() != count) {
+		m_verticies.resize(count);
+		m_verticies_count = count;
+	}
+	for (unsigned int i = 0; i < m_verticies_count; i++) {
+		m_verticies[i].position = positions[i];
+	}
+	InitBuffers();
+}
+
 void Shape::SetVerticiesColors(float * colors, unsigned int count)
 {
 	if (m_verticies.size() <= count) {
@@ -125,6 +137,13 @@ const unsigned int Shape::GetVerticiesCount() const
 const Vertex * Shape::GetVerticies() const
 {
 	return &m_verticies[0];
+}
+
+const Vertex Shape::GetVertex(const unsigned int index) const
+{
+	Vertex temp = m_verticies[index];
+	temp.position = m_rotation_mat * glm::vec4(m_verticies[index].position, 0.f, 0.f);
+	return temp;
 }
 
 const glm::mat4 & Shape::GetRotationMat() const

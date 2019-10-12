@@ -45,7 +45,6 @@ private:
 private:
 	Renderer* renderer;
 	View view;
-	Circle* circle;
 	Poly* poly;
 	World* world;
 	Body* body;

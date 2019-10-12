@@ -55,6 +55,7 @@ public:
 
 	void SetVerticies(Vertex* verticies, unsigned int count);
 	void SetVerticiesPositions(float* positions, unsigned int count);
+	void SetVerticiesPositions(glm::vec2* positions, unsigned int count);
 	void SetVerticiesColors(float* colors, unsigned int count);
 
 	void Translate(float x, float y);
@@ -73,7 +74,8 @@ public:
 
 	const unsigned int GetVerticiesCount() const;
 	const Vertex * GetVerticies() const;
-	
+	const Vertex GetVertex(const unsigned int index) const;
+		
 	const glm::mat4 & GetRotationMat() const;
 	const glm::mat4 & GetTranslationMat() const;
 	const glm::vec2 & GetTranslationVec() const;
