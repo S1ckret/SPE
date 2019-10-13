@@ -147,8 +147,9 @@ void Application::Init()
 		{-2.5f, 2.5f}
 	};
 	poly.SetVerticiesPositions(positions1, 4);
-	poly.Translate({9.f, 3.f});
+	poly.Translate({13.f, 6.f});
 	poly.SetRotation(-0.2449);
+	poly.SetMaterial(Material_Table::Metal);
 	body1 = world->CreateBody(&poly);
 
 	glm::vec2 positions[] =
@@ -158,7 +159,7 @@ void Application::Init()
 		{4.f, 2.f},
 		{-4.f, 2.f}
 	};
-	poly.SetTranslation(4.f, 0.f);
+	poly.SetTranslation(8.f, 3.f);
 	poly.SetRotation(0.0);
 	poly.SetVerticiesPositions(positions, 4);
 	body = world->CreateBody(&poly);

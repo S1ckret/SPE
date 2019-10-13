@@ -108,8 +108,8 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 			m->normal = A->GetNormal(index_vertex_B);
 		}
 
-		Edge best_edge_A = FindTheMostPerpendicularEdgeToNormal(index_vertex_A, A, m->normal);
-		Edge best_edge_B = FindTheMostPerpendicularEdgeToNormal(index_vertex_B, B, -m->normal);
+		Edge best_edge_A = FindTheMostPerpendicularEdgeToNormal(A, m->normal);
+		Edge best_edge_B = FindTheMostPerpendicularEdgeToNormal(B, -m->normal);
 		
 		// The reference edge is the edge most perpendicular to the separation normal.
 		// The reference edge will be used to clip the incident edge vertices to generate the contact manifold.
@@ -132,9 +132,68 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 		}
 
 		// Clipping
-		
-	}
+		glm::vec2 ref_edge = reference.vec;
+		ref_edge = glm::normalize(ref_edge);
 
+		float dis_to_refBeg = glm::dot(ref_edge, reference.vBegin);
+		std::vector<glm::vec2> clipped_points = Clip(incident.vBegin, incident.vEnd, ref_edge, dis_to_refBeg);
+		if (clipped_points.size() < 2)
+		{
+			return false;
+		}
+		
+		float dis_to_refEnd = glm::dot(ref_edge, reference.vEnd);
+		clipped_points = Clip(clipped_points[0], clipped_points[1], -ref_edge, -dis_to_refEnd);
+		if (clipped_points.size() < 2)
+		{
+			return false;
+		}
+		
+		glm::vec2 ref_normal = glm::cross(glm::vec3(ref_edge, 0.f), glm::vec3(0.f, 0.f, -1.f));
+		if (flip) 
+		{
+			ref_normal = -ref_normal;
+		}
+
+		float max = -1000000.f;
+		float max_t1 = glm::dot(ref_normal, reference.vBegin);
+		float max_t2 = glm::dot(ref_normal, reference.vEnd);
+		if (max_t1 > max_t2)
+		{
+			max = max_t1;
+		}
+		else
+		{
+			max = max_t2;
+		}
+	
+		if (glm::dot(ref_normal, clipped_points[1]) - max < 0.0)
+		{
+			clipped_points.pop_back();
+		}
+		if (glm::dot(ref_normal, clipped_points[0]) - max < 0.0)
+		{
+			if (clipped_points.size() > 1) 
+			{
+			clipped_points[0] = clipped_points[1];
+			}
+			clipped_points.pop_back();
+		}
+		//m->contacts = clipped_points;
+		if (clipped_points.size() == 2)
+		{
+			m->contactCount = 2;
+			m->contacts[0] = clipped_points[0];
+			m->contacts[1] = clipped_points[1];
+			return true;
+		}
+		else if (clipped_points.size() == 1)
+		{
+			m->contactCount = 1;
+			m->contacts[0] = clipped_points[0];
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -148,7 +207,7 @@ float CheckCollision::FindAxisLeastPenetration(unsigned int * faceIndex, const P
 		glm::vec2 normal = A->GetNormal(i);
 		glm::vec2 support = B->GetSupport(-normal);
 
-		// Transform A vertex position to B's local space. only translation.
+		// Transform A vertex position to B's local space.
 		glm::mat4 rot_mat = A->GetRotationMat();
 		glm::vec4 current_pos_A = glm::vec4(A->GetVerticies()[i].position, 0.f, 0.f);
 		glm::vec2 position = rot_mat * current_pos_A;
@@ -168,10 +227,30 @@ float CheckCollision::FindAxisLeastPenetration(unsigned int * faceIndex, const P
 	return best_distance;
 }
 
-Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const unsigned int vertexIndex, const Poly * A, const glm::vec2 & normal)
+Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const Poly * A, const glm::vec2 & normal)
 {
+	
+	unsigned int vertexIndex = 0;
+	float best_distance = -1000000.f;
+	for (unsigned int i = 0; i < A->GetVerticiesCount(); i++)
+	{
+		// Transform A vertex position to B's local space.
+		glm::mat4 rot_mat = A->GetRotationMat();
+		glm::vec4 current_pos_A = glm::vec4(A->GetVerticies()[i].position, 0.f, 0.f);
+		glm::vec2 position = rot_mat * current_pos_A;
+		position += A->GetTranslationVec();
+		
+		float distance = glm::dot(normal, position);
+
+		if (distance > best_distance)
+		{
+			best_distance = distance;
+			vertexIndex = i;
+		}
+	}
+
 	// Check left and right verticies.
-	glm::vec2 current_pos = A->GetVertex(vertexIndex).position;
+	glm::vec2 current_pos = A->GetVertex(vertexIndex).position + A->GetTranslationVec();
 	// right is clockwise.
 	unsigned int right = vertexIndex - 1;
 	if (!vertexIndex)
@@ -181,8 +260,8 @@ Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const unsigned int ver
 	// left is counterclockwise.
 	unsigned int left = (vertexIndex + 1) % A->GetVerticiesCount();
 
-	glm::vec2 right_pos = A->GetVertex(right).position;
-	glm::vec2 left_pos = A->GetVertex(left).position;
+	glm::vec2 right_pos = A->GetVertex(right).position + A->GetTranslationVec();
+	glm::vec2 left_pos = A->GetVertex(left).position + A->GetTranslationVec();
 
 	glm::vec2 left_edge = left_pos - current_pos;
 	glm::vec2 right_edge = current_pos - right_pos;
@@ -201,7 +280,7 @@ Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const unsigned int ver
 }
 
 // Source: http://www.dyn4j.org/2011/11/contact-points-using-clipping/#cpg-find
-const std::vector<glm::vec2>& CheckCollision::Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot)
+const std::vector<glm::vec2> CheckCollision::Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot)
 {
 	std::vector<glm::vec2> cp;
 	float distance_to_pos1 = glm::dot(normal, pos1) - dot;
@@ -257,6 +336,7 @@ void solveCollision(Manifold * m)
 	glm::vec2 impulse = impulse_scalar * m->normal;
 	A->ApplyImpulse(-impulse, m->contacts[0]);
 	B->ApplyImpulse(impulse, m->contacts[1]);
+	LOG_WARN("wdadad");
 }
 
 void positionCorrection(Manifold * m)

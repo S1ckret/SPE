@@ -34,8 +34,8 @@ static bool PolyVsPoly(Manifold * m);
 static bool (*const checkCollision[SHAPETYPE_COUNT][SHAPETYPE_COUNT])(Manifold * m);
 
 static float FindAxisLeastPenetration(unsigned int *faceIndex, const Poly *A, const Poly *B);
-static Edge FindTheMostPerpendicularEdgeToNormal(const unsigned int faceIndex, const Poly * A, const glm::vec2& normal);
-static const std::vector<glm::vec2>& Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot);
+static Edge FindTheMostPerpendicularEdgeToNormal(const Poly * A, const glm::vec2& normal);
+static const std::vector<glm::vec2> Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot);
 };
 
 
