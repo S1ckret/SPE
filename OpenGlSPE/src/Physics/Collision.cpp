@@ -18,7 +18,6 @@ struct Edge
 	glm::vec2 vec;
 };
 
-
 bool (*const CheckCollision::checkCollision[SHAPETYPE_COUNT][SHAPETYPE_COUNT])(Manifold * m)
 {
 	{CircleVsCircle, CircleVsPoly},
@@ -118,7 +117,9 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 		Edge incident;
 		bool flip = false;
 
-		if (abs(glm::dot(best_edge_A.vec, m->normal)) <= abs(glm::dot(best_edge_B.vec, m->normal)))
+		float A_dot_normal = abs(glm::dot(best_edge_A.vec, m->normal));
+		float B_dot_normal = abs(glm::dot(best_edge_B.vec, m->normal));
+		if (A_dot_normal <= B_dot_normal)
 		{
 			reference = best_edge_A;
 			incident = best_edge_B;
@@ -130,7 +131,7 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 			flip = true;
 		}
 
-
+		// Clipping
 		
 	}
 
@@ -199,6 +200,34 @@ Edge CheckCollision::FindTheMostPerpendicularEdgeToNormal(const unsigned int ver
 	}
 }
 
+// Source: http://www.dyn4j.org/2011/11/contact-points-using-clipping/#cpg-find
+const std::vector<glm::vec2>& CheckCollision::Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot)
+{
+	std::vector<glm::vec2> cp;
+	float distance_to_pos1 = glm::dot(normal, pos1) - dot;
+	float distance_to_pos2 = glm::dot(normal, pos2) - dot;
+
+	if (distance_to_pos1 >= 0.f)
+	{
+		cp.push_back(pos1);
+	}
+	if (distance_to_pos2 >= 0.f)
+	{
+		cp.push_back(pos2);
+	}
+
+	if (distance_to_pos1 * distance_to_pos2 < 0.f)
+	{
+		glm::vec2 edge = pos2 - pos1;
+		float u = distance_to_pos1 / (distance_to_pos1 - distance_to_pos2);
+		edge = edge * u + pos1;
+		cp.push_back(edge);
+	}
+	return cp;
+}
+
+
+// TO DO: rewrite this func
 void solveCollision(Manifold * m)
 {
 
@@ -220,6 +249,10 @@ void solveCollision(Manifold * m)
 
 	impulse_scalar += -(1 + restitution) * velocity_along_normal;
 	impulse_scalar /= inv_mass + first + second;
+
+	// TO DO:
+	// Iterate though contact count
+	// calculate radius vector from Body pos to Contact pos
 
 	glm::vec2 impulse = impulse_scalar * m->normal;
 	A->ApplyImpulse(-impulse, m->contacts[0]);

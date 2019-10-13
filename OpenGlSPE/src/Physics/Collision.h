@@ -4,6 +4,7 @@ class Body;
 class Poly;
 
 struct Edge;
+struct ClippedPoints;
 
 const unsigned int SHAPETYPE_COUNT = 2;
 
@@ -34,7 +35,7 @@ static bool (*const checkCollision[SHAPETYPE_COUNT][SHAPETYPE_COUNT])(Manifold *
 
 static float FindAxisLeastPenetration(unsigned int *faceIndex, const Poly *A, const Poly *B);
 static Edge FindTheMostPerpendicularEdgeToNormal(const unsigned int faceIndex, const Poly * A, const glm::vec2& normal);
-
+static const std::vector<glm::vec2>& Clip(glm::vec2 pos1, glm::vec2 pos2, glm::vec2 normal, float dot);
 };
 
 
