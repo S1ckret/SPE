@@ -98,45 +98,45 @@ void Application::Init()
 	renderer = new Renderer;
 	renderer->SetView(&view);
 
-	//Vertex verticies_poly[] = {
-	//	{-5.f, -5.f, 1.f, 0.f, 0.f},
-	//	{5.f, -5.f, 0.f, 1.f, 0.f},
-	//	{5.f, 5.f, 0.f, 0.f, 1.f},
-	//	{-5.f, 5.f, 0.f, 0.f, 0.f},
-	//};
-	//poly = new Poly;
-	//poly->SetVerticies(verticies_poly, 4);
-	//poly->Translate(-30.f, 0.f);
-	//poly->SetMaterial(Material_Table::Wood);
+	Vertex verticies_poly[] = {
+		{-5.f, -5.f, 1.f, 0.f, 0.f},
+		{5.f, -5.f, 0.f, 1.f, 0.f},
+		{5.f, 5.f, 0.f, 0.f, 1.f},
+		{-5.f, 5.f, 0.f, 0.f, 0.f},
+	};
+	poly = new Poly;
+	poly->SetVerticies(verticies_poly, 4);
+	poly->Translate(-20.f, 0.f);
+	poly->SetMaterial(Material_Table::Wood);
 
-	//body = world->CreateBody(poly);
-	//body->ApplyForceToCenter(glm::vec2(1.f, 0.f));
-	//body->ApplyTorque(1.f);
+	body = world->CreateBody(poly);
+	body->ApplyForceToCenter(glm::vec2(2.f, 0.f));
+	body->ApplyTorque(1.f);
 
-	//Vertex verticies_poly1[] = {
-	//	{-5.f, -5.f, 1.f, 0.f, 0.f},
-	//	{5.f, -5.f, 0.f, 1.f, 0.f},
-	//	{10.f, 5.f, 0.f, 0.f, 1.f},
-	//	{5.f, 10.f, 0.f, 0.f, 0.f},
-	//	{-5.f, 5.f, 0.f, 0.f, 0.f}
-	//};
+	Vertex verticies_poly1[] = {
+		{-5.f, -5.f, 1.f, 0.f, 0.f},
+		{5.f, -5.f, 0.f, 1.f, 0.f},
+		{10.f, 5.f, 0.f, 0.f, 1.f},
+		{5.f, 10.f, 0.f, 0.f, 0.f},
+		{-5.f, 5.f, 0.f, 0.f, 0.f}
+	};
 
-	//poly->SetVerticies(verticies_poly1, 5);
-	//poly->SetTranslation(glm::vec2(0.f, -30.f));
-	//body1 = world->CreateBody(poly);
-	//body1->ApplyForceToCenter(glm::vec2(-1.f, 1.5f));
-	//body1->ApplyTorque(-2.f);
+	poly->SetVerticies(verticies_poly1, 5);
+	poly->SetTranslation(glm::vec2(0.f, -20.f));
+	body1 = world->CreateBody(poly);
+	body1->ApplyForceToCenter(glm::vec2(1.f, 1.5f));
+	body1->ApplyTorque(-2.f);
 
-	//Circle cr;
-	//cr.SetRadius(3,12);
-	//cr.Translate({-10.f, 0.f});
-	//cr.SetMaterial(Material_Table::Rock);
-	//circle1 = world->CreateBody(&cr);
-	//circle1->ApplyForceToCenter({3.f, 0.f});
+	Circle cr;
+	cr.SetRadius(3,12);
+	cr.Translate({-10.f, 0.f});
+	cr.SetMaterial(Material_Table::Rock);
+	circle1 = world->CreateBody(&cr);
+	circle1->ApplyForceToCenter({3.f, 0.f});
 
-	//cr.SetTranslation({10.f, 0.f});
-	//circle2 = world->CreateBody(&cr);
-	//circle2->ApplyForceToCenter({-3.f, 1.f});
+	cr.SetTranslation({10.f, 0.f});
+	circle2 = world->CreateBody(&cr);
+	circle2->ApplyForceToCenter({-3.f, 1.f});
 
 	Poly poly;
 	glm::vec2 positions1[] =
@@ -147,10 +147,11 @@ void Application::Init()
 		{-2.5f, 2.5f}
 	};
 	poly.SetVerticiesPositions(positions1, 4);
-	poly.Translate({13.f, 6.f});
+	poly.Translate({13.f, 9.f});
 	poly.SetRotation(-0.2449);
 	poly.SetMaterial(Material_Table::Metal);
 	body1 = world->CreateBody(&poly);
+	body1->ApplyForceToCenter({-1.f, -1.f});
 
 	glm::vec2 positions[] =
 	{
@@ -163,6 +164,7 @@ void Application::Init()
 	poly.SetRotation(0.0);
 	poly.SetVerticiesPositions(positions, 4);
 	body = world->CreateBody(&poly);
+	body->ApplyForceToCenter({-1.f, 0.f});
 
 	
 }

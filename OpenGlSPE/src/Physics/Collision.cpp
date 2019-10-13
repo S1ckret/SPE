@@ -50,9 +50,8 @@ bool CheckCollision::CircleVsCircle(Manifold * m)
 		{
 			m->normal = distance / distance_length;
 			m->penetration = distance_length - radius_sum;
-			m->contacts[0] = m->normal * A->GetRadius();
-			m->contacts[1] = -m->normal * B->GetRadius();
-			m->contactCount = 2;
+			m->contacts[0] = m->normal * A->GetRadius() + A->GetPosition();
+			m->contactCount = 1;
 			return true;
 		}
 		else
@@ -60,7 +59,6 @@ bool CheckCollision::CircleVsCircle(Manifold * m)
 			m->normal = {1.f, 0.f};
 			m->penetration = A->GetRadius();
 			m->contacts[0] = {0.f, 0.f};
-			m->contacts[1] = {0.f, 0.f};
 			m->contactCount = 1;
 			return true;
 		}
@@ -105,7 +103,7 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 		else
 		{
 			m->penetration = distance_B;
-			m->normal = A->GetNormal(index_vertex_B);
+			m->normal = B->GetNormal(index_vertex_B);
 		}
 
 		Edge best_edge_A = FindTheMostPerpendicularEdgeToNormal(A, m->normal);
@@ -144,7 +142,7 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 		
 		float dis_to_refEnd = glm::dot(ref_edge, reference.vEnd);
 		clipped_points = Clip(clipped_points[0], clipped_points[1], -ref_edge, -dis_to_refEnd);
-		if (clipped_points.size() < 2)
+		if (clipped_points.size() <2) 
 		{
 			return false;
 		}
@@ -167,30 +165,21 @@ bool CheckCollision::PolyVsPoly(Manifold * m)
 			max = max_t2;
 		}
 	
-		if (glm::dot(ref_normal, clipped_points[1]) - max < 0.0)
+		unsigned int j = 0;
+		if (!(glm::dot(ref_normal, clipped_points[0]) - max < 0.0))
 		{
-			clipped_points.pop_back();
+			m->contacts[j] = clipped_points[0];
+			j++;
 		}
-		if (glm::dot(ref_normal, clipped_points[0]) - max < 0.0)
+
+		if (!(glm::dot(ref_normal, clipped_points[1]) - max < 0.0))
 		{
-			if (clipped_points.size() > 1) 
-			{
-			clipped_points[0] = clipped_points[1];
-			}
-			clipped_points.pop_back();
+			m->contacts[j] = clipped_points[1];
+			j++;
 		}
-		//m->contacts = clipped_points;
-		if (clipped_points.size() == 2)
+		m->contactCount = j;
+		if (j)
 		{
-			m->contactCount = 2;
-			m->contacts[0] = clipped_points[0];
-			m->contacts[1] = clipped_points[1];
-			return true;
-		}
-		else if (clipped_points.size() == 1)
-		{
-			m->contactCount = 1;
-			m->contacts[0] = clipped_points[0];
 			return true;
 		}
 	}
@@ -305,39 +294,46 @@ const std::vector<glm::vec2> CheckCollision::Clip(glm::vec2 pos1, glm::vec2 pos2
 	return cp;
 }
 
-
-// TO DO: rewrite this func
 void solveCollision(Manifold * m)
 {
+	for (unsigned int i = 0; i < m->contactCount; i++)
+	{
+		Body * A = m->A;
+		Body * B = m->B;
+		glm::vec2 ra = m->contacts[i] - A->GetShape()->GetTranslationVec();
+		glm::vec2 rb = m->contacts[i] - B->GetShape()->GetTranslationVec();
 
-	Body * A = m->A;
-	Body * B = m->B;
-	glm::vec2 relative_velocity = B->GetVelocity() - A->GetVelocity();
-	float velocity_along_normal = glm::dot(relative_velocity, m->normal);
+		glm::vec2 rv = B->GetVelocity() + glm::vec2( glm::cross(glm::vec3(0.f, 0.f, B->GetAngularVelocity()), glm::vec3(rb, 0.f)) )
+			-  A->GetVelocity() - glm::vec2( glm::cross(glm::vec3(0.f, 0.f, A->GetAngularVelocity()), glm::vec3(ra, 0.f)) );
 
-	if (velocity_along_normal > 0.f) {
-		return;
+		float vel_along_normal = glm::dot(rv, m->normal);
+
+		if (vel_along_normal > 0.f)
+		{
+			LOG_WARN("<0");
+			return;
+		}
+
+		float restitution =  std::min(A->GetShape()->GetMaterial().restitution, B->GetShape()->GetMaterial().restitution);
+
+		float ra_cross_normal = glm::cross( glm::vec3(ra, 0.f), glm::vec3(m->normal, 0.f)).z;
+		float rb_cross_normal = glm::cross( glm::vec3(rb, 0.f), glm::vec3(m->normal, 0.f)).z;
+		float inv_mass_sum = A->GetMassData().inv_mass + B->GetMassData().inv_mass 
+			+ ra_cross_normal * ra_cross_normal * A->GetMassData().inv_I
+			+ rb_cross_normal * rb_cross_normal * B->GetMassData().inv_I;
+
+		float j = -(1.f + restitution) * vel_along_normal;
+		j /= inv_mass_sum;
+		j /= (float)m->contactCount;
+
+		glm::vec2 impulse = m->normal * j;
+		A->ApplyImpulse( -impulse, ra );
+		B->ApplyImpulse(  impulse, rb );
 	}
-
-	float restitution = std::min(A->GetShape()->GetMaterial().restitution, B->GetShape()->GetMaterial().restitution);
-
-	float impulse_scalar = 0.f;
-	float inv_mass = A->GetMassData().inv_mass + B->GetMassData().inv_mass;
-	float first = std::pow(glm::cross(glm::vec3(m->contacts[0], 0.f), glm::vec3(m->normal, 0.f)).z, 2) * A->GetMassData().inv_I;
-	float second = std::pow(glm::cross(glm::vec3(m->contacts[1], 0.f), glm::vec3(m->normal, 0.f)).z, 2) * B->GetMassData().inv_I;
-
-	impulse_scalar += -(1 + restitution) * velocity_along_normal;
-	impulse_scalar /= inv_mass + first + second;
-
-	// TO DO:
-	// Iterate though contact count
-	// calculate radius vector from Body pos to Contact pos
-
-	glm::vec2 impulse = impulse_scalar * m->normal;
-	A->ApplyImpulse(-impulse, m->contacts[0]);
-	B->ApplyImpulse(impulse, m->contacts[1]);
-	LOG_WARN("wdadad");
 }
+
+
+
 
 void positionCorrection(Manifold * m)
 {

@@ -45,7 +45,7 @@ void Body::ApplyTorque(float torque)
 void Body::ApplyImpulse(glm::vec2 impulse, glm::vec2 point)
 {
 	m_velocity += impulse * m_MassData.inv_mass;
-	glm::vec3 crossVec = glm::cross(glm::vec3(point, 0.f) - glm::vec3(m_shape->GetPosition(), 0.f), glm::vec3(impulse, 0.f));
+	glm::vec3 crossVec = glm::cross(glm::vec3(point, 0.f), glm::vec3(impulse, 0.f));
 	m_angular_velocity += crossVec.z * m_MassData.inv_I;
 }
 
@@ -84,6 +84,11 @@ const AABB * Body::GetAABB() const
 const glm::vec2 Body::GetVelocity() const
 {
 	return m_velocity;
+}
+
+const float Body::GetAngularVelocity() const
+{
+	return m_angular_velocity;
 }
 
 const MassData & Body::GetMassData() const

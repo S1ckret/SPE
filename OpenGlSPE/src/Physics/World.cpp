@@ -94,10 +94,6 @@ void World::NarrowPhase()
 		{
 			m_manifolds.push_back(m);
 		}
-		else
-		{
-			delete m;
-		}
 	}
 }
 
